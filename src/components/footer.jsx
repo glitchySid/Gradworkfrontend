@@ -1,7 +1,7 @@
 
 const Footer = () => (
   <footer className="bg-red-900 text-white p-8">
-    <div className="max-w-6xl mx-auto grid grid-cols-4 gap-8">
+    <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8">
       <div>
         <h4 className="font-semibold mb-4">Categories</h4>
         <ul className="space-y-2 text-sm">
