@@ -29,8 +29,8 @@ const FreelancerCard = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-gray-700">Reviews</span>
-            <div className="px-2 py-1 bg-red-100 rounded-md flex items-center gap-1">
+            <span className="text-gray-700 hidden sm:block">Reviews</span>
+            <div className="px-2 py-1 bg-red-100 rounded-md flex items-center gap-1 h-4 sm:h-6">
               <span className="text-red-500 font-medium">{rating}</span>
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
@@ -43,7 +43,7 @@ const FreelancerCard = ({
 
         {/* Description */}
         <div className="mt-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-2">Description</h4>
+          <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2">Description</h4>
           <p className="text-gray-600 text-sm leading-relaxed">
             {description}
           </p>
