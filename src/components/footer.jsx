@@ -1,4 +1,4 @@
-
+import { FaInstagram, FaTwitter, FaWhatsapp } from "react-icons/fa";
 const Footer = () => (
   <footer className="bg-red-900 text-white p-8">
     <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8">
@@ -37,9 +37,9 @@ const Footer = () => (
       </div>
     </div>
     <div className="mt-8 pt-8 border-t border-red-800 flex justify-center gap-4">
-      <a href="#" className="text-white">Instagram</a>
-      <a href="#" className="text-white">WhatsApp</a>
-      <a href="#" className="text-white">Twitter</a>
+      <a href="#" className="text-white"><FaInstagram size={30}/></a>
+      <a href="#" className="text-white"><FaWhatsapp size={30}/></a>
+      <a href="#" className="text-white"><FaTwitter size={30}/></a>
     </div>
   </footer>
 );
