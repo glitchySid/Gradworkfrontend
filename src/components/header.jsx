@@ -1,19 +1,138 @@
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CiMenuBurger } from "react-icons/ci";
+import { X } from "lucide-react"; // Import X icon for close button
 
-const Header = () => (
-  <nav className="flex justify-between items-center p-4">
-    <div className="text-xl font-bold text-red-500">Grad<span className="text-xl font-bold text-black">Work</span></div>
-    <div className="flex gap-4">
-      <a href="#" className="text-gray-600 m-2">About Us</a>
-      <a href="#" className="text-gray-600 m-2">Explore</a>
-      <button className="bg-red-500 text-white px-4 py-2 rounded-md">Sign In</button>
-      <button className="text-gray-700">
-        <svg className="w-6 h-6 m-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-      </button>
-    </div>
-  </nav>
-);
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const menuVariants = {
+    closed: {
+      opacity: 0,
+      x: "100%",
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+      },
+    },
+    open: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const menuItemVariants = {
+    closed: {
+      opacity: 0,
+      x: 20,
+    },
+    open: {
+      opacity: 1,
+      x: 0,
+    },
+  };
+
+  return (
+    <nav className="relative flex justify-between items-center p-4">
+      <div className="text-xl font-bold text-red-500">
+        Grad<span className="text-xl font-bold text-black">Work</span>
+      </div>
+
+      <div className="hidden sm:block">
+        <ul className="flex gap-4 justify-end">
+          <li className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300">
+            About Us
+          </li>
+          <li className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300">
+            Explore
+          </li>
+          <li className="p-2 rounded-lg text-lg hover:text-black text-white bg-red-500 transition-colors duration-300">
+            Sign In
+          </li>
+        </ul>
+      </div>
+
+      {/* Mobile Navigation */}
+      <div className="block sm:hidden">
+        <motion.div
+          onClick={toggleMenu}
+          className="cursor-pointer"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <motion.div
+            animate={{ rotate: isMenuOpen ? 90 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <CiMenuBurger size={25} className="m-1 hover:text-red-500" />
+          </motion.div>
+        </motion.div>
+
+        <AnimatePresence>
+          {isMenuOpen && (
+            <>
+              {/* Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black z-40"
+                onClick={toggleMenu}
+              />
+
+              {/* Menu */}
+              <motion.div
+                className="fixed top-0 right-0 h-screen w-[70%] bg-white shadow-lg z-50"
+                initial="closed"
+                animate="open"
+                exit="closed"
+                variants={menuVariants}
+              >
+                <div className="p-4">
+                  {/* Close button */}
+                  <button
+                    onClick={toggleMenu}
+                    className="absolute top-4 right-4 p-2 hover:bg-red-100 rounded-full"
+                  >
+                    <X size={24} />
+                  </button>
+
+                  <motion.ul className="space-y-4 mt-12">
+                    <motion.li
+                      variants={menuItemVariants}
+                      className="p-2 rounded-lg text-lg hover:bg-red-100 transition-colors duration-300"
+                    >
+                      Home
+                    </motion.li>
+                    <motion.li
+                      variants={menuItemVariants}
+                      className="p-2 rounded-lg text-lg hover:bg-red-100 transition-colors duration-300"
+                    >
+                      Sign In
+                    </motion.li>
+                    <motion.li
+                      variants={menuItemVariants}
+                      className="p-2 rounded-lg text-lg hover:bg-red-100 transition-colors duration-300"
+                    >
+                      Become a Seller
+                    </motion.li>
+                  </motion.ul>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </div>
+    </nav>
+  );
+};
 
 export default Header;

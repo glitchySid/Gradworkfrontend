@@ -12,7 +12,7 @@ const Hero = () => (
         className="w-full h-full object-cover opacity-60"
       />
     </div>
-    <div className="relative z-10 text-center">
+    <div className="relative z-10 text-center px-3">
       <h1 className="text-3xl font-bold mb-6">Empowering College Students</h1>
       <div className="relative max-w-xl mx-auto">
         <Search className="absolute left-3 top-3 text-gray-400" />
