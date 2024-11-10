@@ -19,16 +19,14 @@ export const serviceNames = [
   "Cybersecurity Consulting",
   "Systems Architecture",
   "Data Analytics & Visualization",
-  "Blockchain Development"
+  "Blockchain Development",
 ];
 
 export const searchServices = (query) => {
   if (!query) return [];
-  
+
   const lowercaseQuery = query.toLowerCase();
   return serviceNames
-    .filter(service => 
-      service.toLowerCase().includes(lowercaseQuery)
-    )
+    .filter((service) => service.toLowerCase().includes(lowercaseQuery))
     .slice(0, 3); // Limit to maximum 3 results
 };

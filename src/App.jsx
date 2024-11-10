@@ -1,23 +1,28 @@
-import Header from './components/header';
-import TeamMemberCard from './components/teammembercards';
-import Footer from './components/footer';
-import Hero from './components/hero';
-import FreelancerCard from './components/freelancercard';
-import ServiceCard from './components/servicecard';
-import { services, teamMembers } from './components/information/info.js';
+import Header from "./components/header";
+import TeamMemberCard from "./components/teammembercards";
+import Footer from "./components/footer";
+import Hero from "./components/hero";
+import FreelancerCard from "./components/freelancercard";
+import ServiceCard from "./components/servicecard";
+import { services, teamMembers } from "./components/information/info.js";
 
 const GradWorkLanding = () => {
   return (
     <div className="min-h-screen">
       <Header />
       <Hero />
-      
+
       <main className="max-w-6xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Boost your Freelancing Journey</h2>
+          <h2 className="text-3xl font-bold mb-4">
+            Boost your Freelancing Journey
+          </h2>
           <h3 className="text-xl mb-6">with GradWork.</h3>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Welcome to GradWork, where graduates and working professionals connect with opportunities that match their skills, find jobs, create profiles, and collaborate seamlessly, all in one convenient platform. Join us to turn your expertise into success!
+            Welcome to GradWork, where graduates and working professionals
+            connect with opportunities that match their skills, find jobs,
+            create profiles, and collaborate seamlessly, all in one convenient
+            platform. Join us to turn your expertise into success!
           </p>
           <button className="mt-6 bg-red-500 text-white px-6 py-2 rounded-md">
             Join Now
@@ -26,13 +31,13 @@ const GradWorkLanding = () => {
 
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6">Top Rated</h2>
-              <FreelancerCard />
+          <FreelancerCard />
         </section>
 
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6">Explore Services</h2>
-          <div >
-            <ServiceCard/>
+          <div>
+            <ServiceCard />
           </div>
         </section>
 

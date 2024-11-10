@@ -1,4 +1,4 @@
-import graphics_designing from '../assets/gradworklandingpage.jpg';
+import graphics_designing from "../assets/gradworklandingpage.jpg";
 
 const TeamMemberCard = ({ name, role, description }) => (
   <div className="border rounded-lg p-4">

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import { MessageCircle } from "lucide-react";
-import { freelancers } from './information/info';
-import gradworklandingpage from '../assets/gradworklandingpage.jpg'
+import { freelancers } from "./information/info";
+import gradworklandingpage from "../assets/gradworklandingpage.jpg";
 
 const FreelancerCard = ({
   name,
@@ -9,8 +9,7 @@ const FreelancerCard = ({
   rating,
   description,
 }) => {
-
-  const imageUrl = "../assets/gradworklandingpage.jpg"
+  const imageUrl = "../assets/gradworklandingpage.jpg";
   return (
     <div className="bg-white rounded-lg p-6 shadow-md">
       <div className="space-y-4">
@@ -43,7 +42,9 @@ const FreelancerCard = ({
 
         {/* Description */}
         <div className="mt-4">
-          <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2">Description</h4>
+          <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-2">
+            Description
+          </h4>
           <p className="text-gray-600 text-sm leading-relaxed">
             {description}
           </p>
@@ -63,7 +64,6 @@ const FreelancerCard = ({
 
 // Example usage component
 const TopRatedFreelancers = () => {
-
   return (
     <div className="max-w-7xl mx-auto p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

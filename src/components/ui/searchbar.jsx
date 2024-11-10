@@ -1,9 +1,9 @@
-import { Search } from 'lucide-react';
-import { useState } from 'react';
-import { searchServices } from '../information/searchService';
+import { Search } from "lucide-react";
+import { useState } from "react";
+import { searchServices } from "../information/searchService";
 
 const SearchBar = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
   const handleSearch = (e) => {
@@ -22,7 +22,7 @@ const SearchBar = () => {
         placeholder="Search Services"
         className="w-full p-3 pl-12 rounded-lg border shadow-sm"
       />
-      
+
       {/* Results dropdown */}
       {results.length > 0 && (
         <div className="absolute w-full mt-1 bg-white border rounded-lg shadow-lg z-10">

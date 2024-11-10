@@ -37,9 +37,15 @@ const Footer = () => (
       </div>
     </div>
     <div className="mt-8 pt-8 border-t border-red-800 flex justify-center gap-4">
-      <a href="#" className="text-white"><FaInstagram size={30}/></a>
-      <a href="#" className="text-white"><FaWhatsapp size={30}/></a>
-      <a href="#" className="text-white"><FaTwitter size={30}/></a>
+      <a href="#" className="text-white">
+        <FaInstagram size={30} />
+      </a>
+      <a href="#" className="text-white">
+        <FaWhatsapp size={30} />
+      </a>
+      <a href="#" className="text-white">
+        <FaTwitter size={30} />
+      </a>
     </div>
   </footer>
 );
