@@ -5,6 +5,8 @@ import Hero from "./components/hero";
 import FreelancerCard from "./components/freelancercard";
 import ServiceCard from "./components/servicecard";
 import { services, teamMembers } from "./components/information/info.js";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import RegistrationPage from "./components/pages/registration.jsx";
 
 const GradWorkLanding = () => {
   return (
@@ -56,4 +58,17 @@ const GradWorkLanding = () => {
   );
 };
 
-export default GradWorkLanding;
+const App = () => {
+  return (
+    <Router>
+      <div className="min-h-screen bg-white">
+        <Routes>
+          <Route path="/" element={<GradWorkLanding />} />
+          <Route path="/register" element={<RegistrationPage />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+};
+
+export default App;

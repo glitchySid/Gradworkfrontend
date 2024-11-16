@@ -2,10 +2,18 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CiMenuBurger } from "react-icons/ci";
 import { X } from "lucide-react"; // Import X icon for close button
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const navigate = useNavigate();
+  const handleSignInClick = () => {
+    navigate('/register');
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  };
 
   const menuVariants = {
     closed: {
@@ -54,7 +62,8 @@ const Header = () => {
           <li className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300">
             Explore
           </li>
-          <li className="p-2 rounded-lg text-lg hover:text-black text-white bg-red-500 transition-colors duration-300">
+          <li className="p-2 rounded-lg text-lg hover:text-black text-white bg-red-500 transition-colors duration-300" 
+            onClick={handleSignInClick}>
             Sign In
           </li>
         </ul>
