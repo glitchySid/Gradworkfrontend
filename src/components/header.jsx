@@ -132,6 +132,7 @@ const Header = () => {
                     <motion.li
                       variants={menuItemVariants}
                       className="p-2 rounded-lg text-lg hover:bg-red-100 transition-colors duration-300"
+                      onClick={handleSignInClick}
                     >
                       Sign In
                     </motion.li>
