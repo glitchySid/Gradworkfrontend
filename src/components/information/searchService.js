@@ -1,26 +1,5 @@
 // Sample data and search logic
-export const serviceNames = [
-  "Web Development",
-  "Mobile App Development",
-  "Database Design & Optimization",
-  "API Development & Integration",
-  "Cloud Architecture (AWS/Azure)",
-  "DevOps Implementation",
-  "UI/UX Design",
-  "Frontend Development",
-  "Backend Development",
-  "React Development",
-  "Python Programming",
-  "Machine Learning Solutions",
-  "WordPress Development",
-  "E-commerce Development",
-  "Code Review & Optimization",
-  "Software Testing & QA",
-  "Cybersecurity Consulting",
-  "Systems Architecture",
-  "Data Analytics & Visualization",
-  "Blockchain Development",
-];
+import { serviceNames } from "./info";
 
 export const searchServices = (query) => {
   if (!query) return [];

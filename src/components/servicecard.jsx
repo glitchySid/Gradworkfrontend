@@ -1,21 +1,6 @@
-import graphics_designing from "../assets/service/graphics_designing.jpg";
-import javascript_expert from "../assets/service/javascript_expert.jpg";
-import social_media from "../assets/service/social_media.png";
-import marketing from "../assets/service/marketing.png";
-import translate from "../assets/service/translate.png";
-import video_editing from "../assets/service/video_editing.png";
-
-const services = [
-  { title: "Video Editing", image: video_editing },
-  { title: "Graphic Designer", image: graphics_designing },
-  { title: "Social Media Mgr", image: social_media },
-  { title: "JavaScript Expert", image: javascript_expert },
-  { title: "Marketing", image: marketing },
-  { title: "Translators", image: translate },
-];
+import { services } from "./information/info";
 
 const ServiceCard = () => (
-  // Changed to 1 column on mobile, 2 on tablet, 3 on desktop
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4 sm:px-6 gap-6">
     {services.map((service, index) => (
       <div

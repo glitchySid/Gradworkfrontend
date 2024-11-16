@@ -7,12 +7,12 @@ import translate from "../../assets/service/translate.png";
 import video_editing from "../../assets/service/video_editing.png";
 
 export const services = [
-  { title: "Video Editing", image: "../../assets/service/translate.png" },
-  { title: "Graphic Designer", image: { graphics_designing } },
-  { title: "Social Media Mgr", image: { social_media } },
-  { title: "JavaScript Expert", image: { javascript_expert } },
-  { title: "Marketing", image: { marketing } },
-  { title: "Translators", image: { translate } },
+  { title: "Video Editing", image: video_editing },
+  { title: "Graphic Designer", image: graphics_designing },
+  { title: "Social Media Mgr", image: social_media },
+  { title: "JavaScript Expert", image: javascript_expert },
+  { title: "Marketing", image: marketing },
+  { title: "Translators", image: translate },
 ];
 
 export const freelancers = [
@@ -64,4 +64,31 @@ export const teamMembers = [
     description:
       "Hey! I'm a UI/UX designer looking forward to help the freelance industry.",
   },
+];
+
+
+
+export const serviceNames = [
+  "Web Development",
+  "Mobile App Development",
+  "Database Design & Optimization",
+  "API Development & Integration",
+  "Cloud Architecture (AWS/Azure)",
+  "DevOps Implementation",
+  "UI/UX Design",
+  "Frontend Development",
+  "Backend Development",
+  "React Development",
+  "Python Programming",
+  "Machine Learning Solutions",
+  "WordPress Development",
+  "E-commerce Development",
+  "Code Review & Optimization",
+  "Software Testing & QA",
+  "Cybersecurity Consulting",
+  "Systems Architecture",
+  "Data Analytics & Visualization",
+  "Blockchain Development",
+  "Video Editing",
+  "Graphics Designer",
 ];
