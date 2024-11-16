@@ -2,12 +2,15 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CiMenuBurger } from "react-icons/ci";
 import { X } from "lucide-react"; // Import X icon for close button
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import SearchBar from "./ui/searchbar";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isRegistrationPage = location.pathname === "/register";
   const handleSignInClick = () => {
     navigate('/register');
     if (isMenuOpen) {
@@ -48,11 +51,16 @@ const Header = () => {
     },
   };
 
+  const handleHomePage = () => {
+    navigate("/");
+  }
+
   return (
     <nav className="relative flex justify-between items-center p-4">
-      <div className="text-xl font-bold text-red-500">
+      <div className="text-xl font-bold text-red-500" onClick={handleHomePage}>
         Grad<span className="text-xl font-bold text-black">Work</span>
       </div>
+      {isRegistrationPage && <SearchBar/>}
 
       <div className="hidden sm:block">
         <ul className="flex gap-4 justify-end">
