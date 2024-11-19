@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CiMenuBurger } from "react-icons/ci";
 import { X } from "lucide-react"; // Import X icon for close button
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "./ui/searchbar";
 
-const Header = () => {
+const Header = ({onAboutUsClick}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const navigate = useNavigate();
   const location = useLocation();
   const isRegistrationPage = location.pathname === "/register";
   const handleSignInClick = () => {
-    navigate('/register');
+    navigate("/register");
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
@@ -53,25 +53,27 @@ const Header = () => {
 
   const handleHomePage = () => {
     navigate("/");
-  }
+  };
 
   return (
     <nav className="relative flex justify-between items-center p-4">
       <div className="text-xl font-bold text-red-500" onClick={handleHomePage}>
         Grad<span className="text-xl font-bold text-black">Work</span>
       </div>
-      {isRegistrationPage && <SearchBar/>}
+      {isRegistrationPage && <SearchBar />}
 
       <div className="hidden sm:block">
         <ul className="flex gap-4 justify-end">
-          <li className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300">
+          <li className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300" onClick={onAboutUsClick}>
             About Us
           </li>
           <li className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300">
             Explore
           </li>
-          <li className="p-2 rounded-lg text-lg hover:text-black text-white bg-red-500 transition-colors duration-300" 
-            onClick={handleSignInClick}>
+          <li
+            className="p-2 rounded-lg text-lg hover:text-black text-white bg-red-500 transition-colors duration-300"
+            onClick={handleSignInClick}
+          >
             Sign In
           </li>
         </ul>
@@ -127,7 +129,13 @@ const Header = () => {
                       variants={menuItemVariants}
                       className="p-2 rounded-lg text-lg hover:bg-red-100 transition-colors duration-300"
                     >
-                      Home
+                      About Us
+                    </motion.li>
+                    <motion.li
+                      variants={menuItemVariants}
+                      className="p-2 rounded-lg text-lg hover:bg-red-100 transition-colors duration-300"
+                    >
+                      Become a Seller
                     </motion.li>
                     <motion.li
                       variants={menuItemVariants}
@@ -135,12 +143,6 @@ const Header = () => {
                       onClick={handleSignInClick}
                     >
                       Sign In
-                    </motion.li>
-                    <motion.li
-                      variants={menuItemVariants}
-                      className="p-2 rounded-lg text-lg hover:bg-red-100 transition-colors duration-300"
-                    >
-                      Become a Seller
                     </motion.li>
                   </motion.ul>
                 </div>

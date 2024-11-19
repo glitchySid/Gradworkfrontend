@@ -1,14 +1,14 @@
-import { Search, Mail } from 'lucide-react';
-import registrationMan from '../../assets/backgroundman_registration_page.png';
-import { useNavigate } from 'react-router-dom';
-import Header from '../header';
+import { Mail, Search } from "lucide-react";
+import registrationMan from "../../assets/backgroundman_registration_page.png";
+import { useNavigate } from "react-router-dom";
+import Header from "../header";
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
 
   const handleHomePage = () => {
     navigate("/");
-  }
+  };
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -18,7 +18,9 @@ const RegistrationPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           {/* Registration Form */}
           <div className="space-y-6">
-            <h2 className="text-4xl font-bold text-gray-900">Register Your Account</h2>
+            <h2 className="text-4xl font-bold text-gray-900">
+              Register Your Account
+            </h2>
 
             <div className="space-y-4">
               <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
@@ -58,7 +60,7 @@ const RegistrationPage = () => {
                   alt="Professional"
                   className="w-full h-full object-cover object-center transform scale-[0.99]" // Slightly scaled down to ensure proper fit
                   style={{
-                    objectPosition: "130% 40%" // Adjust these values to fine-tune image position
+                    objectPosition: "130% 40%", // Adjust these values to fine-tune image position
                   }}
                 />
               </div>

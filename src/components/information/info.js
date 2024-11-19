@@ -66,8 +66,6 @@ export const teamMembers = [
   },
 ];
 
-
-
 export const serviceNames = [
   "Web Development",
   "Mobile App Development",
