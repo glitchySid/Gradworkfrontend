@@ -60,7 +60,7 @@ const Header = ({onAboutUsClick}) => {
       <div className="text-xl font-bold text-red-500" onClick={handleHomePage}>
         Grad<span className="text-xl font-bold text-black">Work</span>
       </div>
-      {isRegistrationPage && <SearchBar />}
+      {isRegistrationPage && <SearchBar/>}
 
       <div className="hidden sm:block">
         <ul className="flex gap-4 justify-end">
@@ -128,6 +128,7 @@ const Header = ({onAboutUsClick}) => {
                     <motion.li
                       variants={menuItemVariants}
                       className="p-2 rounded-lg text-lg hover:bg-red-100 transition-colors duration-300"
+                      onClick={onAboutUsClick}
                     >
                       About Us
                     </motion.li>
@@ -135,7 +136,7 @@ const Header = ({onAboutUsClick}) => {
                       variants={menuItemVariants}
                       className="p-2 rounded-lg text-lg hover:bg-red-100 transition-colors duration-300"
                     >
-                      Become a Seller
+                      Explore
                     </motion.li>
                     <motion.li
                       variants={menuItemVariants}

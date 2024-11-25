@@ -1,18 +1,22 @@
-import { Mail, Search } from "lucide-react";
+import { Mail } from "lucide-react";
 import registrationMan from "../../assets/backgroundman_registration_page.png";
-import { useNavigate } from "react-router-dom";
 import Header from "../header";
+import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 const RegistrationPage = () => {
+  const aboutUsRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleHomePage = () => {
+  const scrollToAboutUs = () => {
     navigate("/");
+    aboutUsRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <Header />
+      <Header onAboutUsClick={scrollToAboutUs} />
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">

@@ -16,6 +16,7 @@ const GradWorkLanding = () => {
 
   const scrollToAboutUs = () => {
     aboutUsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    navigate("/");
   };
   return (
     <div className="min-h-screen">

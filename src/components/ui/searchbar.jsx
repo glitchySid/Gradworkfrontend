@@ -13,7 +13,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="relative max-w-[85%] sm:max-w-xl mx-auto hover:scale-105 transition-transform">
+    <div className="relative max-w-[85%] sm:max-w-xl mx-auto hover:scale-105 transition-transform hidden sm:block">
       <Search className="absolute left-3 top-3 text-gray-400" />
       <input
         type="text"
