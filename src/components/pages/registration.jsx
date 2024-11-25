@@ -13,6 +13,12 @@ const RegistrationPage = () => {
     password: "",
   });
 
+  // Function to validate email format
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setLoginData((prevState) => ({
@@ -31,12 +37,19 @@ const RegistrationPage = () => {
     aboutUsRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Dynamic border color class based on email validation
+  const getInputBorderClass = () => {
+    if (!loginData.username) return "border-gray-300"; // Default state
+    return isValidEmail(loginData.username)
+      ? "border-green-500"
+      : "border-red-500";
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header onAboutUsClick={scrollToAboutUs} />
       <main className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          {/* Toggle between Registration and Login Form */}
           <div className="space-y-6">
             {!showLogin ? (
               // Registration Form
@@ -87,8 +100,13 @@ const RegistrationPage = () => {
                     placeholder="Username or Email"
                     value={loginData.username}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+                    className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${getInputBorderClass()} transition-colors`}
                   />
+                  {loginData.username && !isValidEmail(loginData.username) && (
+                    <p className="text-red-500 text-sm mt-1">
+                      Please enter a valid email address
+                    </p>
+                  )}
 
                   <input
                     type="password"
