@@ -13,10 +13,13 @@ const RegistrationPage = () => {
     password: "",
   });
 
-  // Function to validate email format
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const isValidPassword = (password) => {
+    return password.length >= 8 && /[!@#$%^&*(),.?":{}|<>]/.test(password);
   };
 
   const handleInputChange = (e) => {
@@ -37,10 +40,16 @@ const RegistrationPage = () => {
     aboutUsRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Dynamic border color class based on email validation
-  const getInputBorderClass = () => {
-    if (!loginData.username) return "border-gray-300"; // Default state
+  const getEmailBorderClass = () => {
+    if (!loginData.username) return "border-gray-300";
     return isValidEmail(loginData.username)
+      ? "border-green-500"
+      : "border-red-500";
+  };
+
+  const getPasswordBorderClass = () => {
+    if (!loginData.password) return "border-gray-300";
+    return isValidPassword(loginData.password)
       ? "border-green-500"
       : "border-red-500";
   };
@@ -94,32 +103,53 @@ const RegistrationPage = () => {
                 </h2>
 
                 <form onSubmit={handleLogin} className="space-y-4">
-                  <input
-                    type="text"
-                    name="username"
-                    placeholder="Username or Email"
-                    value={loginData.username}
-                    onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${getInputBorderClass()} transition-colors`}
-                  />
-                  {loginData.username && !isValidEmail(loginData.username) && (
-                    <p className="text-red-500 text-sm mt-1">
-                      Please enter a valid email address
-                    </p>
-                  )}
+                  <div className="space-y-1">
+                    <input
+                      type="text"
+                      name="username"
+                      placeholder="Username or Email"
+                      value={loginData.username}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${getEmailBorderClass()} transition-colors`}
+                    />
+                    {loginData.username &&
+                      !isValidEmail(loginData.username) && (
+                        <p className="text-red-500 text-sm">
+                          Please enter a valid email address
+                        </p>
+                      )}
+                  </div>
 
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={loginData.password}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
-                  />
+                  <div className="space-y-1">
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      value={loginData.password}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${getPasswordBorderClass()} transition-colors`}
+                    />
+                    {loginData.password &&
+                      !isValidPassword(loginData.password) && (
+                        <p className="text-red-500 text-sm">
+                          Password must be at least 8 characters long and
+                          contain at least one symbol
+                        </p>
+                      )}
+                  </div>
 
                   <button
                     type="submit"
-                    className="w-full px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                    className={`w-full px-4 py-3 bg-red-500 text-white rounded-lg transition-colors ${
+                      !isValidEmail(loginData.username) ||
+                      !isValidPassword(loginData.password)
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-red-600"
+                    }`}
+                    disabled={
+                      !isValidEmail(loginData.username) ||
+                      !isValidPassword(loginData.password)
+                    }
                   >
                     Login
                   </button>
@@ -139,7 +169,7 @@ const RegistrationPage = () => {
             )}
           </div>
 
-          {/* Image Section - Unchanged */}
+          {/* Image Section */}
           <div className="hidden md:block">
             <div className="relative w-full aspect-square">
               <div className="absolute inset-0 rounded-full bg-red-500" />

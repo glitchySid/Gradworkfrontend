@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CiMenuBurger } from "react-icons/ci";
 import { X } from "lucide-react"; // Import X icon for close button
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "./ui/searchbar";
 
-const Header = ({onAboutUsClick}) => {
+const Header = ({ onAboutUsClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const navigate = useNavigate();
@@ -60,11 +60,14 @@ const Header = ({onAboutUsClick}) => {
       <div className="text-xl font-bold text-red-500" onClick={handleHomePage}>
         Grad<span className="text-xl font-bold text-black">Work</span>
       </div>
-      {isRegistrationPage && <SearchBar/>}
+      {isRegistrationPage && <SearchBar />}
 
       <div className="hidden sm:block">
         <ul className="flex gap-4 justify-end">
-          <li className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300" onClick={onAboutUsClick}>
+          <li
+            className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300"
+            onClick={onAboutUsClick}
+          >
             About Us
           </li>
           <li className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300">
