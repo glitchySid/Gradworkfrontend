@@ -1,4 +1,4 @@
-import { services } from "../data/info";
+import { services } from "../data/info.js";
 
 const ServiceCard = () => (
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4 sm:px-6 gap-6">

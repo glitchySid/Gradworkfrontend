@@ -1,6 +1,6 @@
 import React from "react";
 import { MessageCircle } from "lucide-react";
-import { freelancers } from "../data/info";
+import { freelancers } from "../data/info.js";
 import gradworklandingpage from "../assets/gradworklandingpage.jpg";
 
 const FreelancerCard = ({
@@ -9,7 +9,6 @@ const FreelancerCard = ({
   rating,
   description,
 }) => {
-  const imageUrl = "../assets/gradworklandingpage.jpg";
   return (
     <div className="bg-white rounded-lg p-6 shadow-md">
       <div className="space-y-4">

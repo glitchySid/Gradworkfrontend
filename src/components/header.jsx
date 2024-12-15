@@ -1,19 +1,19 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion'; 
-import { Menu, X } from 'lucide-react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import SearchBar from './ui/searchbar';
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import SearchBar from "./ui/searchbar.jsx";
 
 const Header = ({ onAboutUsClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const isRegistrationPage = location.pathname === '/register';
+  const isRegistrationPage = location.pathname === "/register";
 
   const containerVariants = {
     initial: {
-      x: '100%',
+      x: "100%",
     },
     animate: {
       x: 0,
@@ -21,34 +21,34 @@ const Header = ({ onAboutUsClick }) => {
         type: "spring",
         stiffness: 260,
         damping: 20,
-      }
+      },
     },
     exit: {
-      x: '100%',
+      x: "100%",
       transition: {
         type: "spring",
         stiffness: 260,
         damping: 20,
-      }
-    }
+      },
+    },
   };
 
   const menuItemVariants = {
     initial: { opacity: 0, x: -20 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       x: 0,
       transition: {
         delay: 0.3,
-      }
+      },
     },
-    exit: { 
-      opacity: 0, 
+    exit: {
+      opacity: 0,
       x: -20,
       transition: {
         delay: 0.1,
-      }
-    }
+      },
+    },
   };
 
   const handleHomePage = () => {
@@ -57,10 +57,10 @@ const Header = ({ onAboutUsClick }) => {
 
   return (
     <nav className="relative flex justify-between items-center p-4 bg-white shadow-sm">
-      <div 
-        className="text-xl font-bold text-red-500 cursor-pointer" 
+      <div
+        className="text-xl font-bold text-red-500 cursor-pointer"
         onClick={handleHomePage}
-      > 
+      >
         Grad<span className="text-xl font-bold text-black">Work</span>
       </div>
 
@@ -71,43 +71,37 @@ const Header = ({ onAboutUsClick }) => {
         <ul className="flex gap-4 justify-end">
           <li
             className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
           >
             Home
           </li>
-        <li
-                    className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
-                    onClick={() => navigate('/services')}
-                  >
-                    {/* Services
-                  </li>
-                  <li
-                    className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
-                    onClick={onAboutUsClick}
-                  > */}
-                    About Us
-                  </li>
-                  <li
-                    className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
-                    onClick={() => navigate('/register')}
-                  >
-                    Register
-                  </li>
-                </ul>
-              </div>
+          <li
+            className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
+            onClick={onAboutUsClick}
+          >
+            About Us
+          </li>
+          <li
+            className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </li>
+        </ul>
+      </div>
 
-              {/* Mobile Menu Button */}
-              <div className="sm:hidden">
-                <button 
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="p-2 z-[60] relative"
-                  aria-label="Toggle menu"
-                >
-                  {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-              </div>
+      {/* Mobile Menu Button */}
+      <div className="sm:hidden">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="p-2 z-[60] relative"
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
 
-              {/* Mobile Menu with AnimatePresence */}
+      {/* Mobile Menu with AnimatePresence */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -119,7 +113,7 @@ const Header = ({ onAboutUsClick }) => {
               onClick={() => setIsOpen(false)}
               className="fixed inset-0 bg-black bg-opacity-50 z-40"
             />
-            
+
             {/* Menu */}
             <motion.div
               variants={containerVariants}
@@ -135,25 +129,36 @@ const Header = ({ onAboutUsClick }) => {
                 >
                   <motion.li
                     className="p-2 hover:text-red-500 cursor-pointer"
-                    onClick={() => { setIsOpen(false); navigate('/'); }}
+                    onClick={() => {
+                      setIsOpen(false);
+                      navigate("/");
+                    }}
                   >
                     Home
                   </motion.li>
-                  {/* <motion.li
+                  {
+                    /* <motion.li
                     className="p-2 hover:text-red-500 cursor-pointer"
                     onClick={() => { setIsOpen(false); navigate('/services'); }}
                   >
                     Services
-                  </motion.li> */}
+                  </motion.li> */
+                  }
                   <motion.li
                     className="p-2 hover:text-red-500 cursor-pointer"
-                    onClick={() => { setIsOpen(false); onAboutUsClick(); }}
+                    onClick={() => {
+                      setIsOpen(false);
+                      onAboutUsClick();
+                    }}
                   >
                     About Us
                   </motion.li>
                   <motion.li
                     className="p-2 hover:text-red-500 cursor-pointer"
-                    onClick={() => { setIsOpen(false); navigate('/register'); }}
+                    onClick={() => {
+                      setIsOpen(false);
+                      navigate("/register");
+                    }}
                   >
                     Register
                   </motion.li>
@@ -172,4 +177,3 @@ Header.propTypes = {
 };
 
 export default Header;
-

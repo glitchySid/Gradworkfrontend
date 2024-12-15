@@ -1,4 +1,4 @@
-import SearchBar from "./ui/searchbar";
+import SearchBar from "./ui/searchbar.jsx";
 import heroImage from "../assets/gradworklandingpage.jpg";
 
 const Hero = () => (

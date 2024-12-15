@@ -1,9 +1,9 @@
-import Header from "../components/header";
+import Header from "../components/header.jsx";
 import TeamMemberCard from "../components/teammembercards.jsx";
-import Footer from "../components/footer";
-import Hero from "../components/hero";
-import FreelancerCard from "../components/freelancercard";
-import ServiceCard from "../components/servicecard";
+import Footer from "../components/footer.jsx";
+import Hero from "../components/hero.jsx";
+import FreelancerCard from "../components/freelancercard.jsx";
+import ServiceCard from "../components/servicecard.jsx";
 import { useRef } from "react";
 import { teamMembers } from "../data/info.js";
 import { useNavigate } from "react-router-dom";
@@ -12,16 +12,16 @@ const GradWorkLanding = () => {
   const navigate = useNavigate();
   const handleSignInClick = () => {
     navigate("/register");
-  };  
+  };
   const aboutUsRef = useRef(null);
 
   const scrollToAboutUs = () => {
-    aboutUsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    aboutUsRef.current?.scrollIntoView({ behavior: "smooth" });
     navigate("/");
   };
   return (
     <div className="min-h-screen">
-      <Header onAboutUsClick={scrollToAboutUs}/>
+      <Header onAboutUsClick={scrollToAboutUs} />
       <Hero />
 
       <main className="max-w-6xl mx-auto px-4 py-12">
@@ -36,7 +36,10 @@ const GradWorkLanding = () => {
             create profiles, and collaborate seamlessly, all in one convenient
             platform. Join us to turn your expertise into success!
           </p>
-          <button className="mt-6 bg-red-500 text-white px-6 py-2 rounded-md" onClick={handleSignInClick}>
+          <button
+            className="mt-6 bg-red-500 text-white px-6 py-2 rounded-md"
+            onClick={handleSignInClick}
+          >
             Join Now
           </button>
         </div>
@@ -69,10 +72,3 @@ const GradWorkLanding = () => {
 };
 
 export default GradWorkLanding;
-
-
-
-
-
-
-
