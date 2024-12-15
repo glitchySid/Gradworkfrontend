@@ -79,12 +79,12 @@ const Header = ({ onAboutUsClick }) => {
                     className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
                     onClick={() => navigate('/services')}
                   >
-                    Services
+                    {/* Services
                   </li>
                   <li
                     className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
                     onClick={onAboutUsClick}
-                  >
+                  > */}
                     About Us
                   </li>
                   <li
@@ -139,12 +139,12 @@ const Header = ({ onAboutUsClick }) => {
                   >
                     Home
                   </motion.li>
-                  <motion.li
+                  {/* <motion.li
                     className="p-2 hover:text-red-500 cursor-pointer"
                     onClick={() => { setIsOpen(false); navigate('/services'); }}
                   >
                     Services
-                  </motion.li>
+                  </motion.li> */}
                   <motion.li
                     className="p-2 hover:text-red-500 cursor-pointer"
                     onClick={() => { setIsOpen(false); onAboutUsClick(); }}
