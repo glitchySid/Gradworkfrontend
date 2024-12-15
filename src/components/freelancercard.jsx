@@ -1,6 +1,6 @@
 import React from "react";
 import { MessageCircle } from "lucide-react";
-import { freelancers } from "./information/info";
+import { freelancers } from "../data/info";
 import gradworklandingpage from "../assets/gradworklandingpage.jpg";
 
 const FreelancerCard = ({

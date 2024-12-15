@@ -1,10 +1,10 @@
 // info.js
-import graphics_designing from "../../assets/service/graphics_designing.jpg";
-import javascript_expert from "../../assets/service/javascript_expert.jpg";
-import social_media from "../../assets/service/social_media.png";
-import marketing from "../../assets/service/marketing.png";
-import translate from "../../assets/service/translate.png";
-import video_editing from "../../assets/service/video_editing.png";
+import graphics_designing from "../assets/service/graphics_designing.jpg";
+import javascript_expert from "../assets/service/javascript_expert.jpg";
+import social_media from "../assets/service/social_media.png";
+import marketing from "../assets/service/marketing.png";
+import translate from "../assets/service/translate.png";
+import video_editing from "../assets/service/video_editing.png";
 
 export const services = [
   { title: "Video Editing", image: video_editing },

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import RegistrationPage from "./components/pages/registration.jsx";
-import GradWorkLanding from "./components/pages/homepage.jsx";
+import RegistrationPage from "./pages/registration.jsx";
+import GradWorkLanding from "./pages/homepage.jsx";
 
 const App = () => {
   return (

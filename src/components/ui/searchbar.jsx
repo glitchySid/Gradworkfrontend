@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 import { useState } from "react";
-import { searchServices } from "../information/searchService";
+import { searchServices } from "../../data/searchService";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");

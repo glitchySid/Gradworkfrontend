@@ -1,6 +1,12 @@
 import { Mail } from "lucide-react";
-import registrationMan from "../../assets/backgroundman_registration_page.png";
-import Header from "../header";
+import registrationMan from "../assets/backgroundman_registration_page.png";
+import Header from "../components/header";
+import TeamMemberCard from "../components/teammembercards";
+import Footer from "../components/footer";
+import Hero from "../components/hero";
+import FreelancerCard from "../components/freelancercard";
+import ServiceCard from "../components/servicecard";
+import { teamMembers } from "../data/info"; // Update path
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 
@@ -140,12 +146,11 @@ const RegistrationPage = () => {
 
                   <button
                     type="submit"
-                    className={`w-full px-4 py-3 bg-red-500 text-white rounded-lg transition-colors ${
-                      !isValidEmail(loginData.username) ||
-                      !isValidPassword(loginData.password)
+                    className={`w-full px-4 py-3 bg-red-500 text-white rounded-lg transition-colors ${!isValidEmail(loginData.username) ||
+                        !isValidPassword(loginData.password)
                         ? "opacity-50 cursor-not-allowed"
                         : "hover:bg-red-600"
-                    }`}
+                      }`}
                     disabled={
                       !isValidEmail(loginData.username) ||
                       !isValidPassword(loginData.password)

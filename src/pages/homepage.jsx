@@ -1,12 +1,13 @@
-import Header from "../header";
-import TeamMemberCard from "../teammembercards";
-import Footer from "../footer";
-import Hero from "../hero";
-import FreelancerCard from "../freelancercard";
-import ServiceCard from "../servicecard";
+import Header from "../components/header";
+import TeamMemberCard from "../components/teammembercards.jsx";
+import Footer from "../components/footer";
+import Hero from "../components/hero";
+import FreelancerCard from "../components/freelancercard";
+import ServiceCard from "../components/servicecard";
 import { useRef } from "react";
-import { teamMembers } from "../information/info.js";
+import { teamMembers } from "../data/info.js";
 import { useNavigate } from "react-router-dom";
+
 const GradWorkLanding = () => {
   const navigate = useNavigate();
   const handleSignInClick = () => {
@@ -68,3 +69,10 @@ const GradWorkLanding = () => {
 };
 
 export default GradWorkLanding;
+
+
+
+
+
+
+
