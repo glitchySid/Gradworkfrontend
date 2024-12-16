@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import SearchBar from "./ui/searchbar.jsx";
+import SearchBar from "./searchbar.jsx";
 
 const Header = ({ onAboutUsClick }) => {
   const [isOpen, setIsOpen] = useState(false);

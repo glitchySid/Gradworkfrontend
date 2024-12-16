@@ -1,9 +1,9 @@
-import Header from "../components/header.jsx";
-import TeamMemberCard from "../components/teammembercards.jsx";
-import Footer from "../components/footer.jsx";
-import Hero from "../components/hero.jsx";
-import FreelancerCard from "../components/freelancercard.jsx";
-import ServiceCard from "../components/servicecard.jsx";
+import Header from "../components/ui/header.jsx";
+import TeamMemberCard from "../components/ui/teammembercards.jsx";
+import Footer from "../components/ui/footer.jsx";
+import Hero from "../components/ui/hero.jsx";
+import FreelancerCard from "../components/ui/freelancercard.jsx";
+import ServiceCard from "../components/ui/servicecard.jsx";
 import { useRef } from "react";
 import { teamMembers } from "../data/info.js";
 import { useNavigate } from "react-router-dom";

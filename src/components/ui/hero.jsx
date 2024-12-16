@@ -1,5 +1,5 @@
-import SearchBar from "./ui/searchbar.jsx";
-import heroImage from "../assets/gradworklandingpage.jpg";
+import SearchBar from "./searchbar.jsx";
+import heroImage from "../../assets/gradworklandingpage.jpg";
 
 const Hero = () => (
   <div className="relative h-96 bg-gray-100 flex items-center justify-center">

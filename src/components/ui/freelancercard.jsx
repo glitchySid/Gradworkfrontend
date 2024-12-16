@@ -1,7 +1,9 @@
 import React from "react";
 import { MessageCircle } from "lucide-react";
-import { freelancers } from "../data/info.js";
-import gradworklandingpage from "../assets/gradworklandingpage.jpg";
+import { freelancers } from "../../data/info.js";
+import gradworklandingpage from "../../assets/gradworklandingpage.jpg";
+import ButtonIcon from "../buttons/button_icon.jsx";
+
 
 const FreelancerCard = ({
   name,
@@ -50,10 +52,9 @@ const FreelancerCard = ({
 
         {/* Message Button */}
         <div className="mt-4">
-          <button className="flex items-center gap-2 bg-red-500 transform hover:scale-110 transition-transform duration-200 text-white px-4 py-2 rounded-lg">
-            <MessageCircle size={20} />
-            Message
-          </button>
+            <ButtonIcon
+                name="Message"
+                icon={MessageCircle} />
         </div>
       </div>
     </div>

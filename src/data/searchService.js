@@ -1,5 +1,5 @@
 // Sample data and search logic
-import { serviceNames } from "./info";
+import { serviceNames } from "./info.js";
 
 export const searchServices = (query) => {
   if (!query) return [];

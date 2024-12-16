@@ -1,6 +1,6 @@
 import { Mail } from "lucide-react";
 import registrationMan from "../assets/backgroundman_registration_page.png";
-import Header from "../components/header.jsx";
+import Header from "../components/ui/header.jsx";
 // import TeamMemberCard from "../components/teammembercards.jsx";
 // import Footer from "../components/footer.jsx";
 // import Hero from "../components/hero.jsx";
