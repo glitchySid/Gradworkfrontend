@@ -13,16 +13,6 @@ const Hero = () => (
     <div className="relative z-10 text-center px-3">
       <h1 className="text-3xl font-bold mb-6">Empowering College Students</h1>
       <SearchBar />
-      {
-        /*<div className="relative max-w-[80%] sm:max-w-xl mx-auto hover:scale-105 transition-transform">
-        <Search className="absolute left-3 top-3 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Search Services"
-          className="w-full p-3 pl-12 rounded-lg border shadow-sm"
-        />
-      </div>*/
-      }
     </div>
   </div>
 );
