@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "./searchbar.jsx";
+import profileIcon from "../../assets/profile_icon.svg";
 
 const Header = ({ onAboutUsClick }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -86,6 +87,9 @@ const Header = ({ onAboutUsClick }) => {
             onClick={() => navigate("/register")}
           >
             Register
+          </li>
+          <li >
+            <img src={profileIcon} alt="Profile Icon" className="w-12 h-12" />
           </li>
         </ul>
       </div>
