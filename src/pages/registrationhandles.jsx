@@ -4,6 +4,8 @@ import ProfileDetailF3 from './registration/profiledetailF3.jsx';
 import ChooseService from './registration/services.jsx';
 import { useState } from 'react';
 
+
+
 const RegistrationHandles = () => {
   const [currentpage, setCurrentPage] = useState(1);
   const switchPage = () => {
