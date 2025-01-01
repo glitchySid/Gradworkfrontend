@@ -1,14 +1,9 @@
-import { Mail } from "lucide-react";
+import { Link, Mail } from "lucide-react";
 import registrationMan from "../assets/backgroundman_registration_page.png";
 import Header from "../components/ui/header.jsx";
-// import TeamMemberCard from "../components/teammembercards.jsx";
-// import Footer from "../components/footer.jsx";
-// import Hero from "../components/hero.jsx";
-// import FreelancerCard from "../components/freelancercard.jsx";
-// import ServiceCard from "../components/servicecard.jsx";
-// import { teamMembers } from "../data/info.js";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 const RegistrationPage = () => {
   const aboutUsRef = useRef(null);
@@ -80,7 +75,7 @@ const RegistrationPage = () => {
                 </h2>
 
                 <div className="space-y-4">
-                  <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                  <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" onClick={() => navigate("/setupprofile")}>
                     <Mail className="h-5 w-5 text-gray-600" />
                     <span className="text-gray-700">Email Or Phone Number</span>
                   </button>

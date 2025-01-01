@@ -1,5 +1,5 @@
-import profilesetupicon from "../assets/profilepage_inc.svg";
-import Header from "../components/ui/header.jsx";
+import profilesetupicon from "../../assets/profilepage_inc.svg";
+import Header from "../../components/ui/header.jsx";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +28,7 @@ const ProfileSetup = () => {
                   <h2 className="text-2xl font-bold text-gray-900">
                     Siddhesh Mhatre
                   </h2>
-                  <p className="text-gray-600 font-medium">@freakyanhsid</p>
+                  <p className="text-gray-600 font-medium">@freakiestsid</p>
                 </div>
               </div>
 
@@ -87,7 +87,8 @@ const ProfileSetup = () => {
               <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
                 Complete Your Account Setup!
               </h1>
-              <button className="w-full max-w-xs bg-red-500 text-white py-4 px-6 rounded-lg text-lg font-semibold hover:bg-red-600 transform hover:scale-105 transition-all duration-200 shadow-md">
+              <button className="w-full max-w-xs bg-red-500 text-white py-4 px-6 rounded-lg text-lg font-semibold hover:bg-red-600 transform hover:scale-105 transition-all duration-200 shadow-md"
+              >
                 Setup Profile
               </button>
             </div>
