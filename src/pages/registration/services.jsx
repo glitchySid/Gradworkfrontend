@@ -4,7 +4,7 @@ import buyservice from "../../assets/buyservice.svg";
 const ChooseService = ({setCurrentPage}) => {
 return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white">
-      <h1 className="text-3xl font-normal mb-8">What are you looking for?</h1>
+      <h1 className="text-2xl font-normal mb-8 p-4"><span className="text-4xl font-bold mb-8 font-MC m-2">W</span>hat are you looking for?</h1>
 
       <div className="flex space-x-8 m-20">
         {/* Sell Services Card */}
