@@ -180,7 +180,7 @@ const Header = ({ onAboutUsClick }) => {
 };
 
 Header.propTypes = {
-  onAboutUsClick: PropTypes.func.isRequired,
+  onAboutUsClick: PropTypes.func,
 };
 
 export default Header;
