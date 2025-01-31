@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
-import { Star } from 'lucide-react';
+import {Star} from 'lucide-react';
 import gigs from '../../data/gigsData.json';
 import {useEffect, useState} from "react";
 import Header from "../../components/ui/header.jsx";
+import {useNavigate} from "react-router-dom";
 
 const gigsData = gigs.gigs;
+const navigate = useNavigate();
 
 const GigCard = ({ gig }) => {
     const [imagePath, setImagePath] = useState(null);
@@ -31,7 +33,7 @@ const GigCard = ({ gig }) => {
                 <div className="flex items-center gap-2 mb-2">
                     <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
                         <img
-                            src="/api/placeholder/32/32"
+                            src="../../assets/profile_icon.svg"
                             alt={gig.author}
                             className="w-full h-full rounded-full object-cover"
                         />
@@ -68,8 +70,9 @@ GigCard.propTypes = {
 
 const GigExplorer = () => {
     return (
-        <div className="max-w-7xl mx-auto p-6">
+        <div className="max-w-7xl mx-auto">
             <Header/>
+            <div className={"p-4"}>
             <h2 className="text-xl font-semibold mb-6">Explore Gigs</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -85,6 +88,7 @@ const GigExplorer = () => {
                     <GigCard key={`suggested-${gig.id}`} gig={gig} />
                 ))}
             </div>
+        </div>
         </div>
     );
 };

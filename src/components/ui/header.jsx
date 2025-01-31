@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
+import {Menu, X} from "lucide-react";
+import {useLocation, useNavigate} from "react-router-dom";
 import SearchBar from "./searchbar.jsx";
 import profileIcon from "../../assets/profile_icon.svg";
 
@@ -75,9 +75,9 @@ const Header = ({ onAboutUsClick }) => {
         <ul className="flex gap-4 justify-end">
           <li
             className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/explore")}
           >
-            Home
+            Explore
           </li>
           <li
             className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
