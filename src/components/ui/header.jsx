@@ -138,10 +138,10 @@ const Header = ({ onAboutUsClick }) => {
                     className="p-2 hover:text-red-500 cursor-pointer"
                     onClick={() => {
                       setIsOpen(false);
-                      navigate("/");
+                      navigate("/explore");
                     }}
                   >
-                    Home
+                    Explore
                   </motion.li>
                   {
                     /* <motion.li
@@ -155,6 +155,7 @@ const Header = ({ onAboutUsClick }) => {
                     className="p-2 hover:text-red-500 cursor-pointer"
                     onClick={() => {
                       setIsOpen(false);
+                      handleHomePage();
                       onAboutUsClick();
                     }}
                   >
@@ -163,7 +164,6 @@ const Header = ({ onAboutUsClick }) => {
                   <motion.li
                     className="p-2 hover:text-red-500 cursor-pointer"
                     onClick={() => {
-                      setIsOpen(false);
                       navigate("/register");
                     }}
                   >

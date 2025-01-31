@@ -21,7 +21,7 @@ const GradWorkLanding = () => {
   };
   return (
     <div className="min-h-screen">
-      <Header onAboutUsClick={scrollToAboutUs} />
+      <Header onAboutUsClick={scrollToAboutUs}/>
       <Hero />
 
       <main className="max-w-6xl mx-auto px-4 py-12">
