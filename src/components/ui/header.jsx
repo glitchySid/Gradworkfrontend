@@ -55,6 +55,9 @@ const Header = ({ onAboutUsClick }) => {
   const handleHomePage = () => {
     navigate("/");
   };
+  const handleProfile = () => {
+    navigate("/profile");
+  }
 
   return (
     <nav className="relative flex justify-between items-center p-4 bg-white shadow-sm">
@@ -89,7 +92,7 @@ const Header = ({ onAboutUsClick }) => {
             Register
           </li>
           <li >
-            <img src={profileIcon} alt="Profile Icon" className="w-12 h-12" />
+            <img src={profileIcon} alt="Profile Icon" className="w-12 h-12" onClick={handleProfile} />
           </li>
         </ul>
       </div>
