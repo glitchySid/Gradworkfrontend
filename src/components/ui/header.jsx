@@ -169,6 +169,11 @@ const Header = ({ onAboutUsClick }) => {
                   >
                     Register
                   </motion.li>
+                  <motion.li
+                      className={"p-2 hover:text-red-500 cursor-pointer"}
+                      onClick={handleProfile}>
+                    Profile
+                  </motion.li>
                 </motion.ul>
               </div>
             </motion.div>
