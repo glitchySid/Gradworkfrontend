@@ -3,10 +3,8 @@ import {Star} from 'lucide-react';
 import gigs from '../../data/gigsData.json';
 import {useEffect, useState} from "react";
 import Header from "../../components/ui/header.jsx";
-import {useNavigate} from "react-router-dom";
 
 const gigsData = gigs.gigs;
-const navigate = useNavigate();
 
 const GigCard = ({ gig }) => {
     const [imagePath, setImagePath] = useState(null);
