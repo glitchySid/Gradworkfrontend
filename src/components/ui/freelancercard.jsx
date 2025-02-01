@@ -1,4 +1,3 @@
-import React from "react";
 import { MessageCircle } from "lucide-react";
 import { freelancers } from "../../data/info.js";
 import gradworklandingpage from "../../assets/gradworklandingpage.jpg";
@@ -29,11 +28,11 @@ const FreelancerCard = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="px-2 py-1 bg-red-100 rounded-md flex items-center gap-1 h-4 sm:h-8">
+            <div className="px-2 py-1 bg-red-100 rounded-md flex items-center gap-1">
               <span className="text-red-500 font-medium">{rating}</span>
-              <div className="flex">
+              <div className="hidden sm:flex"> {/* Hide on small screens, show on larger screens */}
                 {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-red-500">★</span>
+                    <span key={i} className="text-red-500">★</span>
                 ))}
               </div>
             </div>

@@ -2,6 +2,10 @@ import { MapPin } from 'lucide-react';
 import Header from '../../components/ui/header.jsx';
 import { freelancers } from '../../data/info.js';
 import PortfolioPageV from './portfolio-page.jsx';
+import ReviewCard from "./reviews.jsx";
+import {reviews} from "./zod-reviews.js";
+import ScreenshotCard from "./screenshots-card.jsx";
+import Footer from "../../components/ui/footer.jsx";
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -50,7 +54,25 @@ const SellerSetupPage = () => {
             </div>
           </div>
           <PortfolioPageV />
+          <div className="m-5 mt-6 mb-8">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <ScreenshotCard imageUrl="/path/to/image1.jpg" title="Mobile App Home"/>
+              <ScreenshotCard imageUrl="/path/to/image2.jpg" title="Settings Screen"/>
+              <ScreenshotCard imageUrl="/path/to/image3.jpg" title="UI"/>
+              <ScreenshotCard/> {/* Will show fallback grey container */}
+            </div>
+          </div>
+          <div className="mb-9">
+            {reviews.map((review, index) => (
+                <ReviewCard key={index} review={review}/>
+            ))}
+            {/*view more button*/}
+          </div>
+          <div className="flex justify-center m-5">
+            <button className="rounded-full p-4 bg-gray-100 border border-black w-40">View More</button>
+          </div>
         </div>
+        <Footer/>
       </div>
   );
 };

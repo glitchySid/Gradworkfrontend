@@ -58,6 +58,10 @@ const Header = ({ onAboutUsClick }) => {
   const handleProfile = () => {
     navigate("/profile");
   }
+  const handleAboutUs = () => {
+    navigate("/");
+    onAboutUsClick();
+  }
 
   return (
     <nav className="relative flex justify-between items-center p-4 bg-white shadow-sm">
@@ -81,7 +85,7 @@ const Header = ({ onAboutUsClick }) => {
           </li>
           <li
             className="p-2 rounded-lg text-lg hover:text-red-500 transition-colors duration-300 cursor-pointer"
-            onClick={onAboutUsClick}
+            onClick={handleAboutUs}
           >
             About Us
           </li>

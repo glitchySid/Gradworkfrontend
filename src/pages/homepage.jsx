@@ -29,9 +29,10 @@ const GradWorkLanding = () => {
           <h2 className="text-3xl font-bold mb-4">
             Boost your Freelancing Journey
           </h2>
-          <h3 className="text-xl mb-6">with GradWork.</h3>
+          <h3 className="text-xl mb-6 font-bold">with <span className="text-red-600">Grad</span>Work.</h3>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Welcome to GradWork, where graduates and working professionals
+            Welcome to <span className="font-bold"><span className="text-red-600">Grad</span>Work</span>, where
+            graduates and working professionals
             connect with opportunities that match their skills, find jobs,
             create profiles, and collaborate seamlessly, all in one convenient
             platform. Join us to turn your expertise into success!
