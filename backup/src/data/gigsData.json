@@ -1,0 +1,90 @@
+{
+  "gigs": [
+    {
+      "id": 1,
+      "title": "BRANDED SHOPIFY WEBSITE",
+      "author": "Nazia sheikh",
+      "description": "I will design, redesign shopify store, dropshipping, arrangement of research marketing will be done for ta",
+      "rating": 4.9,
+      "reviews": 23,
+      "price": 75.50,
+      "image": "gig1.png"
+    },
+    {
+      "id": 2,
+      "title": "Figma designer",
+      "author": "Soham Gadekar",
+        "description": "I will design a professional figma website, mobile app, and landing page",
+        "rating": 4.8,
+        "reviews": 15,
+        "price": 50.50,
+        "image": "gig2.png"
+    },
+    {
+        "id": 3,
+        "title": "Professional Logo Design",
+        "author": "Soham Gadekar",
+        "description": "I will design a professional logo for your business",
+      "card": "beginner",
+        "rating": 4.7,
+        "reviews": 10,
+        "price": 25.50,
+        "image": "gig3.png"
+        },
+        {
+        "id": 4,
+        "title": "Professional Business Card Design",
+        "author": "Soham Gadekar",
+          "card": "beginner",
+        "description": "I will design a professional business card for your business",
+        "rating": 4.6,
+        "reviews": 5,
+        "price": 15.50,
+        "image": "gig4.png"
+        },
+        {
+        "id": 5,
+        "title": "Professional Business Card Design",
+        "author": "Soham Gadekar",
+          "card": "beginner",
+        "description": "I will design a professional business card for your business",
+        "rating": 4.6,
+        "reviews": 5,
+        "price": 15.50,
+        "image": "gig3.png"
+        },
+        {
+        "id": 6,
+        "title": "Professional Business Card Design",
+        "author": "Soham Gadekar",
+        "description": "I will design a professional business card for your business",
+        "rating": 4.6,
+        "reviews": 5,
+        "price": 15.50,
+          "image": "gig1.png",
+          "card": "beginner"
+        },
+        {
+        "id": 7,
+        "title": "Professional Business Card Design",
+        "author": "Soham Gadekar",
+        "description": "I will design a professional business card for your business",
+        "rating": 4.6,
+        "reviews": 5,
+        "price": 15.50,
+          "image": "gig2.png",
+          "card": "beginner"
+        },
+        {
+        "id": 8,
+        "title": "Professional Business Card Design",
+        "author": "Soham Gadekar",
+        "description": "I will design a professional business card for your business",
+        "rating": 4.6,
+        "reviews": 5,
+        "price": 15.50,
+          "image": "gig3.png",
+          "card": "beginner"
+        }
+  ]
+}
