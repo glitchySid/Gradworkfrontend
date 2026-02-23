@@ -1,8 +1,14 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { api } from '@/lib/api';
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api";
 
 export interface Conversation {
   contract_id: string;
@@ -23,12 +29,16 @@ interface ChatContextType {
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
-export function ChatProvider({ children, token }: { children: ReactNode; token: string | null }) {
+export function ChatProvider(
+  { children, token }: { children: ReactNode; token: string | null },
+) {
   const [activeContractId, setActiveContractId] = useState<string | null>(null);
 
-  const { data: conversations = [], isLoading, refetch } = useQuery<Conversation[]>({
-    queryKey: ['conversations'],
-    queryFn: () => api.get<Conversation[]>('/chat/conversations', token!),
+  const { data: conversations = [], isLoading, refetch } = useQuery<
+    Conversation[]
+  >({
+    queryKey: ["conversations"],
+    queryFn: () => api.get<Conversation[]>("/chat/conversations", token!),
     enabled: !!token,
   });
 
@@ -54,7 +64,7 @@ export function ChatProvider({ children, token }: { children: ReactNode; token: 
 export function useChatContext() {
   const context = useContext(ChatContext);
   if (context === undefined) {
-    throw new Error('useChatContext must be used within a ChatProvider');
+    throw new Error("useChatContext must be used within a ChatProvider");
   }
   return context;
 }

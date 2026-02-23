@@ -14,9 +14,9 @@ const App = () => {
           <Route path="/" element={<GradWorkLanding />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/setupprofile" element={<RegistrationHandles />} />
-          <Route path="/setupprofile" element={<ElegantProfileForm/>} />
-          <Route path="/profile" element={<SellerSetupPage/>}/>
-          <Route path="/explore" element={<GigExplorer/>}/>
+          <Route path="/setupprofile" element={<ElegantProfileForm />} />
+          <Route path="/profile" element={<SellerSetupPage />} />
+          <Route path="/explore" element={<GigExplorer />} />
           <Route path="*" element={<GradWorkLanding />} />
         </Routes>
       </div>

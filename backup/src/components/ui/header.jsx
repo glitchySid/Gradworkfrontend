@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import {useState} from "react";
-import {AnimatePresence, motion} from "framer-motion";
-import {Menu, X} from "lucide-react";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "./searchbar.jsx";
 import profileIcon from "../../assets/profile_icon.svg";
 
@@ -57,11 +57,11 @@ const Header = ({ onAboutUsClick }) => {
   };
   const handleProfile = () => {
     navigate("/profile");
-  }
+  };
   const handleAboutUs = () => {
     navigate("/");
     onAboutUsClick();
-  }
+  };
 
   return (
     <nav className="relative flex justify-between items-center p-4 bg-white shadow-sm">
@@ -95,8 +95,13 @@ const Header = ({ onAboutUsClick }) => {
           >
             Register
           </li>
-          <li >
-            <img src={profileIcon} alt="Profile Icon" className="w-12 h-12" onClick={handleProfile} />
+          <li>
+            <img
+              src={profileIcon}
+              alt="Profile Icon"
+              className="w-12 h-12"
+              onClick={handleProfile}
+            />
           </li>
         </ul>
       </div>
@@ -174,8 +179,9 @@ const Header = ({ onAboutUsClick }) => {
                     Register
                   </motion.li>
                   <motion.li
-                      className={"p-2 hover:text-red-500 cursor-pointer"}
-                      onClick={handleProfile}>
+                    className={"p-2 hover:text-red-500 cursor-pointer"}
+                    onClick={handleProfile}
+                  >
                     Profile
                   </motion.li>
                 </motion.ul>

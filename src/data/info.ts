@@ -1,10 +1,16 @@
-import { Service, Freelancer, TeamMember } from "@/types";
+import { Freelancer, Service, TeamMember } from "@/types";
 
 export const services: Service[] = [
   { title: "Video Editing", image: "/assets/service/video_editing.png" },
-  { title: "Graphic Designer", image: "/assets/service/graphics_designing.jpg" },
+  {
+    title: "Graphic Designer",
+    image: "/assets/service/graphics_designing.jpg",
+  },
   { title: "Social Media Mgr", image: "/assets/service/social_media.png" },
-  { title: "JavaScript Expert", image: "/assets/service/javascript_expert.jpg" },
+  {
+    title: "JavaScript Expert",
+    image: "/assets/service/javascript_expert.jpg",
+  },
   { title: "Marketing", image: "/assets/service/marketing.png" },
   { title: "Translators", image: "/assets/service/translate.png" },
 ];

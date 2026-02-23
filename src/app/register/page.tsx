@@ -8,9 +8,9 @@ import Header from "@/components/ui/header";
 import { useAuth } from "@/context/AuthContext";
 
 const GoogleIcon = () => (
-  <svg 
-    className="h-5 w-5" 
-    viewBox="0 0 24 24" 
+  <svg
+    className="h-5 w-5"
+    viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
@@ -56,7 +56,9 @@ export default function RegisterPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isValidEmail(loginData.username) || !isValidPassword(loginData.password)) {
+    if (
+      !isValidEmail(loginData.username) || !isValidPassword(loginData.password)
+    ) {
       return;
     }
 
@@ -65,7 +67,7 @@ export default function RegisterPage() {
 
     const { error: authError } = await signInWithPassword(
       loginData.username,
-      loginData.password
+      loginData.password,
     );
 
     setLoading(false);
@@ -90,7 +92,7 @@ export default function RegisterPage() {
 
     const { error: authError } = await signUp(
       loginData.username,
-      loginData.password
+      loginData.password,
     );
 
     setLoading(false);
@@ -134,115 +136,117 @@ export default function RegisterPage() {
       <main className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
-            {!showLogin ? (
-              // Registration Form
-              <>
-                <h2 className="text-4xl font-bold text-gray-900">
-                  Register Your Account
-                </h2>
+            {!showLogin
+              ? (
+                // Registration Form
+                <>
+                  <h2 className="text-4xl font-bold text-gray-900">
+                    Register Your Account
+                  </h2>
 
-                <div className="space-y-4">
+                  <div className="space-y-4">
+                    <button
+                      type="button"
+                      onClick={handleRegister}
+                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <Mail className="h-5 w-5 text-gray-600" />
+                      <span className="text-gray-700">
+                        Email Or Phone Number
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleGoogleLogin}
+                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <GoogleIcon />
+                      <span className="text-gray-700">
+                        Continue with Google
+                      </span>
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-center">
+                    <span className="px-4 text-gray-500">OR</span>
+                  </div>
+
                   <button
                     type="button"
-                    onClick={handleRegister}
-                    className="w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="w-full px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                    onClick={() => setShowLogin(true)}
                   >
-                    <Mail className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-700">Email Or Phone Number</span>
+                    Login Account
                   </button>
+                </>
+              )
+              : (
+                // Login Form
+                <>
+                  <h2 className="text-4xl font-bold text-gray-900">
+                    Login to Your Account
+                  </h2>
 
-                  <button 
-                    type="button"
-                    onClick={handleGoogleLogin}
-                    className="w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    <GoogleIcon />
-                    <span className="text-gray-700">Continue with Google</span>
-                  </button>
-                </div>
-
-                <div className="flex items-center justify-center">
-                  <span className="px-4 text-gray-500">OR</span>
-                </div>
-
-                <button
-                  type="button"
-                  className="w-full px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                  onClick={() => setShowLogin(true)}
-                >
-                  Login Account
-                </button>
-              </>
-            ) : (
-              // Login Form
-              <>
-                <h2 className="text-4xl font-bold text-gray-900">
-                  Login to Your Account
-                </h2>
-
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div className="space-y-1">
-                    <input
-                      type="text"
-                      name="username"
-                      placeholder="Username or Email"
-                      value={loginData.username}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${getEmailBorderClass()} transition-colors`}
-                      autoComplete="email"
-                    />
-                    {loginData.username &&
-                      !isValidEmail(loginData.username) && (
+                  <form onSubmit={handleLogin} className="space-y-4">
+                    <div className="space-y-1">
+                      <input
+                        type="text"
+                        name="username"
+                        placeholder="Username or Email"
+                        value={loginData.username}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${getEmailBorderClass()} transition-colors`}
+                        autoComplete="email"
+                      />
+                      {loginData.username &&
+                        !isValidEmail(loginData.username) && (
                         <p className="text-red-500 text-sm">
                           Please enter a valid email address
                         </p>
                       )}
-                  </div>
+                    </div>
 
-                  <div className="space-y-1">
-                    <input
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      value={loginData.password}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition-colors"
-                      autoComplete="current-password"
-                    />
+                    <div className="space-y-1">
+                      <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={loginData.password}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition-colors"
+                        autoComplete="current-password"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className={`w-full px-4 py-3 bg-red-500 text-white rounded-lg transition-colors ${
+                        !isValidEmail(loginData.username) || loading
+                          ? "opacity-50 cursor-not-allowed"
+                          : "hover:bg-red-600"
+                      }`}
+                      disabled={!isValidEmail(loginData.username) || loading}
+                    >
+                      {loading ? "Loading..." : "Login"}
+                    </button>
+                  </form>
+
+                  {error && <p className="text-red-500 text-sm">{error}</p>}
+
+                  <div className="flex items-center justify-center">
+                    <span className="px-4 text-gray-500">OR</span>
                   </div>
 
                   <button
-                    type="submit"
-                    className={`w-full px-4 py-3 bg-red-500 text-white rounded-lg transition-colors ${
-                      !isValidEmail(loginData.username) || loading
-                        ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-red-600"
-                    }`}
-                    disabled={
-                      !isValidEmail(loginData.username) || loading
-                    }
+                    type="button"
+                    className="w-full px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                    onClick={() => setShowLogin(false)}
                   >
-                    {loading ? "Loading..." : "Login"}
+                    Back to Register
                   </button>
-                </form>
-
-                {error && (
-                  <p className="text-red-500 text-sm">{error}</p>
-                )}
-
-                <div className="flex items-center justify-center">
-                  <span className="px-4 text-gray-500">OR</span>
-                </div>
-
-                <button
-                  type="button"
-                  className="w-full px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-                  onClick={() => setShowLogin(false)}
-                >
-                  Back to Register
-                </button>
-              </>
-            )}
+                </>
+              )}
           </div>
 
           {/* Image Section */}

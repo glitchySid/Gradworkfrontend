@@ -2,12 +2,12 @@
 
 import {
   createContext,
+  type ReactNode,
   useContext,
   useEffect,
   useState,
-  type ReactNode,
 } from "react";
-import { User, Session } from "@supabase/supabase-js";
+import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 
 interface AuthUser {
@@ -28,7 +28,10 @@ interface AuthContextType {
   loading: boolean;
   token: string | null;
   signInWithGoogle: () => Promise<void>;
-  signInWithPassword: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signInWithPassword: (
+    email: string,
+    password: string,
+  ) => Promise<{ error: Error | null }>;
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   refetchAuthUser: () => Promise<void>;
@@ -45,14 +48,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const fetchAuthUser = async (accessToken: string) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8080/api'}/auth/me`,
+        `${
+          process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080/api"
+        }/auth/me`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
-      
+
       if (response.ok) {
         const data = await response.json();
         setAuthUser(data);

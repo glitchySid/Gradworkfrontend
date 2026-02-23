@@ -1,22 +1,28 @@
-import { Camera } from 'lucide-react';
-import { useState } from 'react';
+import { Camera } from "lucide-react";
+import { useState } from "react";
 
-const ElegantProfileForm = ({setCurrentPage}) => {
+const ElegantProfileForm = ({ setCurrentPage }) => {
   const [remoteWork, setRemoteWork] = useState(true);
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-3xl font-semibold text-gray-800 mb-2">Personal Info.</h1>
-        <p className="text-gray-500 mb-8">This personal information will be displayed to other users</p>
-        
+        <h1 className="text-3xl font-semibold text-gray-800 mb-2">
+          Personal Info.
+        </h1>
+        <p className="text-gray-500 mb-8">
+          This personal information will be displayed to other users
+        </p>
+
         {/* Profile Picture Section */}
         <div className="flex justify-center mb-12">
           <div className="relative">
             <div className="w-32 h-32 bg-red-800 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors cursor-pointer">
               <Camera className="w-12 h-12 text-white" />
             </div>
-            <p className="text-center mt-3 text-gray-600 font-medium">Profile Pic</p>
+            <p className="text-center mt-3 text-gray-600 font-medium">
+              Profile Pic
+            </p>
           </div>
         </div>
 
@@ -70,8 +76,8 @@ const ElegantProfileForm = ({setCurrentPage}) => {
               onClick={() => setRemoteWork(true)}
               className={`px-6 py-2 rounded-lg transition-all ${
                 remoteWork
-                  ? 'bg-red-800 text-white'
-                  : 'bg-white border border-gray-300 text-gray-700'
+                  ? "bg-red-800 text-white"
+                  : "bg-white border border-gray-300 text-gray-700"
               }`}
             >
               Yes
@@ -80,8 +86,8 @@ const ElegantProfileForm = ({setCurrentPage}) => {
               onClick={() => setRemoteWork(false)}
               className={`px-6 py-2 rounded-lg transition-all ${
                 !remoteWork
-                  ? 'bg-red-800 text-white'
-                  : 'bg-white border border-gray-300 text-gray-700'
+                  ? "bg-red-800 text-white"
+                  : "bg-white border border-gray-300 text-gray-700"
               }`}
             >
               No
@@ -90,13 +96,17 @@ const ElegantProfileForm = ({setCurrentPage}) => {
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex justify-between items-center" >
-            <button className="text-gray-600 flex items-center gap-2 hover:text-gray-800 transition-colors"
-            onClick={() => setCurrentPage(prev => prev - 1)}
+        <div className="flex justify-between items-center">
+          <button
+            className="text-gray-600 flex items-center gap-2 hover:text-gray-800 transition-colors"
+            onClick={() => setCurrentPage((prev) => prev - 1)}
           >
             <span className="text-lg">←</span> Back
           </button>
-          <button className="bg-red-600 text-white px-8 py-2 rounded-lg hover:bg-red-700 transition-colors"  onClick={() => setCurrentPage(prev => prev + 1)}>
+          <button
+            className="bg-red-600 text-white px-8 py-2 rounded-lg hover:bg-red-700 transition-colors"
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+          >
             Continue
           </button>
         </div>

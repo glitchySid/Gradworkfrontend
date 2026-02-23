@@ -21,8 +21,12 @@ const ProfileDetailF2 = ({ setCurrentPage }: RegistrationHandlesProps) => {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-3xl font-semibold text-gray-800 mb-2">Professional Info.</h1>
-        <p className="text-gray-500 mb-8">Tell us about your professional background</p>
+        <h1 className="text-3xl font-semibold text-gray-800 mb-2">
+          Professional Info.
+        </h1>
+        <p className="text-gray-500 mb-8">
+          Tell us about your professional background
+        </p>
         <hr className="w-full h-4" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 m-10">
           <div className="grid grid-rows-2 gap-6 mb-5">

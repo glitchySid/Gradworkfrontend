@@ -23,8 +23,8 @@ function PortfolioPageV() {
             <div>
               <h3 className="font-medium mb-2">Description</h3>
               <p className="text-gray-600">
-                This project is a real estate website where users can browse rental properties.
-                You can check it out here:
+                This project is a real estate website where users can browse
+                rental properties. You can check it out here:
                 <a
                   href="https://real-estate-react-project-three.vercel.app/"
                   className="text-blue-600 hover:underline ml-1"
@@ -39,17 +39,22 @@ function PortfolioPageV() {
             <div>
               <h3 className="font-medium mb-2">Key Features:</h3>
               <ul className="text-gray-600 space-y-2">
-                <li>- The website has smooth animations and transitions, making it visually appealing
-                  and easy to use.
+                <li>
+                  - The website has smooth animations and transitions, making it
+                  visually appealing and easy to use.
                 </li>
-                <li>- It is designed to be user-friendly, providing a seamless experience whether
-                  you&apos;re on a computer or a mobile device.
+                <li>
+                  - It is designed to be user-friendly, providing a seamless
+                  experience whether you&apos;re on a computer or a mobile
+                  device.
                 </li>
-                <li>- On the Rent page, you can filter properties based on different criteria to find
-                  the best match for your needs.
+                <li>
+                  - On the Rent page, you can filter properties based on
+                  different criteria to find the best match for your needs.
                 </li>
-                <li>- The overall design is clean and modern, making it easy to navigate and find
-                  information quickly.
+                <li>
+                  - The overall design is clean and modern, making it easy to
+                  navigate and find information quickly.
                 </li>
               </ul>
             </div>

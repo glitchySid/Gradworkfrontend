@@ -1,6 +1,6 @@
 declare module "framer-motion" {
   import * as React from "react";
-  
+
   interface MotionProps {
     initial?: any;
     animate?: any;

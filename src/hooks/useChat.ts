@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface ChatMessage {
   id: string;
@@ -26,22 +26,25 @@ interface UseChatOptions {
 }
 
 interface SendMessagePayload {
-  type: 'send_message';
+  type: "send_message";
   content: string;
 }
 
 interface MarkReadPayload {
-  type: 'mark_read';
+  type: "mark_read";
   message_id: string;
 }
 
 interface TypingPayload {
-  type: 'typing' | 'stop_typing';
+  type: "typing" | "stop_typing";
 }
 
 type WSMessage = SendMessagePayload | MarkReadPayload | TypingPayload;
 
-export function useChat({ contractId, token, onMessage, onTyping, onPresence, onError }: UseChatOptions) {
+export function useChat(
+  { contractId, token, onMessage, onTyping, onPresence, onError }:
+    UseChatOptions,
+) {
   const wsRef = useRef<WebSocket | null>(null);
   const [state, setState] = useState<ChatState>({
     connected: false,
@@ -65,11 +68,12 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
   const connect = useCallback(() => {
     if (!contractId || !token) return;
 
-    const wsUrl = `ws://127.0.0.1:8080/api/chat/ws/${contractId}?token=${token}`;
+    const wsUrl =
+      `ws://127.0.0.1:8080/api/chat/ws/${contractId}?token=${token}`;
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
-      setState(prev => ({ ...prev, connected: true }));
+      setState((prev) => ({ ...prev, connected: true }));
     };
 
     ws.onmessage = (event) => {
@@ -77,7 +81,7 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
         const data = JSON.parse(event.data);
 
         switch (data.type) {
-          case 'new_message': {
+          case "new_message": {
             const message: ChatMessage = {
               id: data.id,
               contract_id: contractId,
@@ -86,24 +90,24 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
               is_read: false,
               created_at: data.created_at,
             };
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
               messages: [message, ...prev.messages],
             }));
             onMessageRef.current?.(message);
             break;
           }
-          case 'message_read': {
-            setState(prev => ({
+          case "message_read": {
+            setState((prev) => ({
               ...prev,
-              messages: prev.messages.map(m =>
+              messages: prev.messages.map((m) =>
                 m.id === data.message_id ? { ...m, is_read: true } : m
               ),
             }));
             break;
           }
-          case 'user_typing': {
-            setState(prev => {
+          case "user_typing": {
+            setState((prev) => {
               const newTyping = new Map(prev.typingUsers);
               newTyping.set(data.user_id, true);
               return { ...prev, typingUsers: newTyping };
@@ -111,8 +115,8 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
             onTypingRef.current?.(data.user_id, true);
             break;
           }
-          case 'user_stop_typing': {
-            setState(prev => {
+          case "user_stop_typing": {
+            setState((prev) => {
               const newTyping = new Map(prev.typingUsers);
               newTyping.set(data.user_id, false);
               return { ...prev, typingUsers: newTyping };
@@ -120,8 +124,8 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
             onTypingRef.current?.(data.user_id, false);
             break;
           }
-          case 'presence': {
-            setState(prev => {
+          case "presence": {
+            setState((prev) => {
               const newOnline = new Set(prev.onlineUsers);
               if (data.online) {
                 newOnline.add(data.user_id);
@@ -133,23 +137,23 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
             onPresenceRef.current?.(data.user_id, data.online);
             break;
           }
-          case 'error': {
+          case "error": {
             onErrorRef.current?.(data.message);
             break;
           }
         }
       } catch (err) {
-        console.error('Failed to parse WebSocket message:', err);
+        console.error("Failed to parse WebSocket message:", err);
       }
     };
 
     ws.onclose = () => {
-      setState(prev => ({ ...prev, connected: false }));
+      setState((prev) => ({ ...prev, connected: false }));
     };
 
     ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      onErrorRef.current?.('Connection error');
+      console.error("WebSocket error:", error);
+      onErrorRef.current?.("Connection error");
     };
 
     wsRef.current = ws;
@@ -160,29 +164,33 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
       wsRef.current.close();
       wsRef.current = null;
     }
-    setState(prev => ({ ...prev, connected: false }));
+    setState((prev) => ({ ...prev, connected: false }));
   }, []);
 
   const sendMessage = useCallback((content: string) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ type: 'send_message', content }));
+      wsRef.current.send(JSON.stringify({ type: "send_message", content }));
     }
   }, []);
 
   const markAsRead = useCallback((messageId: string) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ type: 'mark_read', message_id: messageId }));
+      wsRef.current.send(
+        JSON.stringify({ type: "mark_read", message_id: messageId }),
+      );
     }
   }, []);
 
   const sendTyping = useCallback((isTyping: boolean) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ type: isTyping ? 'typing' : 'stop_typing' }));
+      wsRef.current.send(
+        JSON.stringify({ type: isTyping ? "typing" : "stop_typing" }),
+      );
     }
   }, []);
 
   const setMessages = useCallback((messages: ChatMessage[]) => {
-    setState(prev => ({ ...prev, messages }));
+    setState((prev) => ({ ...prev, messages }));
   }, []);
 
   const connectRef = useRef(connect);

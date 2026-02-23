@@ -15,7 +15,9 @@ const Hero = () => (
         <div className="absolute inset-0 bg-black opacity-70 rounded-2xl"></div>
       </div>
       <div className="relative w-full z-10 text-center px-3">
-        <h1 className="text-2xl font-semibold text-white mb-6 font-MNS">Empowering College Students</h1>
+        <h1 className="text-2xl font-semibold text-white mb-6 font-MNS">
+          Empowering College Students
+        </h1>
         <SearchBar />
       </div>
     </div>

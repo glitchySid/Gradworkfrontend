@@ -3,7 +3,6 @@ import { freelancers } from "../../data/info.js";
 import gradworklandingpage from "../../assets/gradworklandingpage.jpg";
 import ButtonIcon from "../buttons/button_icon.jsx";
 
-
 const FreelancerCard = ({
   name,
   title,
@@ -30,9 +29,10 @@ const FreelancerCard = ({
           <div className="flex items-center gap-2">
             <div className="px-2 py-1 bg-red-100 rounded-md flex items-center gap-1">
               <span className="text-red-500 font-medium">{rating}</span>
-              <div className="hidden sm:flex"> {/* Hide on small screens, show on larger screens */}
+              <div className="hidden sm:flex">
+                {/* Hide on small screens, show on larger screens */}
                 {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-red-500">★</span>
+                  <span key={i} className="text-red-500">★</span>
                 ))}
               </div>
             </div>
@@ -51,9 +51,10 @@ const FreelancerCard = ({
 
         {/* Message Button */}
         <div className="mt-4">
-            <ButtonIcon
-                name="Message"
-                icon={MessageCircle} />
+          <ButtonIcon
+            name="Message"
+            icon={MessageCircle}
+          />
         </div>
       </div>
     </div>

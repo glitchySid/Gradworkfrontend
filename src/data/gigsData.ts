@@ -34,7 +34,8 @@ export const gigsData: { gigs: Gig[] } = {
     {
       id: "4",
       title: "Professional Business Card Design",
-      description: "I will design a professional business card for your business",
+      description:
+        "I will design a professional business card for your business",
       price: 15.5,
       thumbnail_url: null,
       user_id: "user-4",

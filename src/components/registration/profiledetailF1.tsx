@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
   const { token, authUser, refetchAuthUser } = useAuth();
   const router = useRouter();
-  
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -33,8 +33,10 @@ const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
     setError("");
 
     try {
-      const displayName = [formData.firstName, formData.lastName].filter(Boolean).join(" ") || null;
-      
+      const displayName =
+        [formData.firstName, formData.lastName].filter(Boolean).join(" ") ||
+        null;
+
       const response = await fetch(
         "http://127.0.0.1:8080/api/auth/complete-profile",
         {
@@ -47,7 +49,7 @@ const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
             username: formData.username,
             display_name: displayName,
           }),
-        }
+        },
       );
 
       if (response.ok) {
@@ -68,15 +70,21 @@ const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-3xl font-semibold text-gray-800 mb-2">Personal Info.</h1>
-        <p className="text-gray-500 mb-8">This personal information will be displayed to other users</p>
+        <h1 className="text-3xl font-semibold text-gray-800 mb-2">
+          Personal Info.
+        </h1>
+        <p className="text-gray-500 mb-8">
+          This personal information will be displayed to other users
+        </p>
 
         <div className="flex justify-center mb-12">
           <div className="relative">
             <div className="w-32 h-32 bg-red-800 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors cursor-pointer">
               <Camera className="w-12 h-12 text-white" />
             </div>
-            <p className="text-center mt-3 text-gray-600 font-medium">Profile Pic</p>
+            <p className="text-center mt-3 text-gray-600 font-medium">
+              Profile Pic
+            </p>
           </div>
         </div>
 
@@ -90,7 +98,8 @@ const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent outline-none transition-all"
               placeholder="Enter first name"
               value={formData.firstName}
-              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, firstName: e.target.value })}
             />
           </div>
 
@@ -103,7 +112,8 @@ const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent outline-none transition-all"
               placeholder="Enter last name"
               value={formData.lastName}
-              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, lastName: e.target.value })}
             />
           </div>
 
@@ -117,14 +127,13 @@ const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent outline-none transition-all"
               placeholder="Enter username"
               value={formData.username}
-              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, username: e.target.value })}
             />
           </div>
         </div>
 
-        {error && (
-          <p className="text-red-500 text-sm mb-4">{error}</p>
-        )}
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         <div className="flex justify-between items-center">
           <button

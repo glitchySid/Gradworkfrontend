@@ -1,4 +1,4 @@
-import { MessageCircle, LucideIcon } from "lucide-react";
+import { LucideIcon, MessageCircle } from "lucide-react";
 import { ButtonIconProps } from "@/types";
 
 const ButtonIcon = ({ name, icon: Icon = MessageCircle }: ButtonIconProps) => (

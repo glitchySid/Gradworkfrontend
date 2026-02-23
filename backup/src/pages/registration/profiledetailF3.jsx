@@ -87,8 +87,7 @@ const ProfileSetup = () => {
               <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
                 Complete Your Account Setup!
               </h1>
-              <button className="w-full max-w-xs bg-red-500 text-white py-4 px-6 rounded-lg text-lg font-semibold hover:bg-red-600 transform hover:scale-105 transition-all duration-200 shadow-md"
-              >
+              <button className="w-full max-w-xs bg-red-500 text-white py-4 px-6 rounded-lg text-lg font-semibold hover:bg-red-600 transform hover:scale-105 transition-all duration-200 shadow-md">
                 Setup Profile
               </button>
             </div>

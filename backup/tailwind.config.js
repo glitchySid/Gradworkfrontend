@@ -8,8 +8,8 @@ export default {
     extend: {
       fontFamily: {
         MNS: ["Montserrat", "sans-serif"],
-        MC: ["MonteCarlo", "sans-serif"]
-      }
+        MC: ["MonteCarlo", "sans-serif"],
+      },
     },
   },
   plugins: [],
