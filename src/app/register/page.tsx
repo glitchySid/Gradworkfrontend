@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Mail } from "lucide-react";
 import Image from "next/image";
 import Header from "@/components/ui/header";
+import { useAuth } from "@/context/AuthContext";
 
-// Google Icon Component
 const GoogleIcon = () => (
   <svg 
     className="h-5 w-5" 
@@ -40,17 +40,66 @@ export default function RegisterPage() {
     password: "",
   });
   const [isClient, setIsClient] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { signInWithGoogle, signInWithPassword, signUp } = useAuth();
 
-  // Handle client-side only code
-  const handleLogin = (e: React.FormEvent) => {
+  const handleGoogleLogin = async () => {
+    try {
+      setError("");
+      await signInWithGoogle();
+    } catch (err) {
+      setError("Failed to sign in with Google");
+      console.error(err);
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login attempt with:", loginData);
-    if (
-      isValidEmail(loginData.username) &&
-      isValidPassword(loginData.password)
-    ) {
+    if (!isValidEmail(loginData.username) || !isValidPassword(loginData.password)) {
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    const { error: authError } = await signInWithPassword(
+      loginData.username,
+      loginData.password
+    );
+
+    setLoading(false);
+
+    if (authError) {
+      setError(authError.message);
+    } else {
       if (typeof window !== "undefined") {
-        window.location.href = "/setupprofile";
+        window.location.href = "/completeprofile";
+      }
+    }
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isValidEmail(loginData.username)) {
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    const { error: authError } = await signUp(
+      loginData.username,
+      loginData.password
+    );
+
+    setLoading(false);
+
+    if (authError) {
+      setError(authError.message);
+    } else {
+      if (typeof window !== "undefined") {
+        window.location.href = "/completeprofile";
       }
     }
   };
@@ -60,8 +109,8 @@ export default function RegisterPage() {
     return emailRegex.test(email);
   };
 
-  const isValidPassword = (password: string) => {
-    return password.length >= 8 && /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  const isValidPassword = (_password: string) => {
+    return true;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,13 +124,6 @@ export default function RegisterPage() {
   const getEmailBorderClass = () => {
     if (!loginData.username) return "border-gray-300";
     return isValidEmail(loginData.username)
-      ? "border-green-500"
-      : "border-red-500";
-  };
-
-  const getPasswordBorderClass = () => {
-    if (!loginData.password) return "border-gray-300";
-    return isValidPassword(loginData.password)
       ? "border-green-500"
       : "border-red-500";
   };
@@ -100,16 +142,18 @@ export default function RegisterPage() {
                 </h2>
 
                 <div className="space-y-4">
-                  <Link
-                    href="/setupprofile"
+                  <button
+                    type="button"
+                    onClick={handleRegister}
                     className="w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <Mail className="h-5 w-5 text-gray-600" />
                     <span className="text-gray-700">Email Or Phone Number</span>
-                  </Link>
+                  </button>
 
                   <button 
                     type="button"
+                    onClick={handleGoogleLogin}
                     className="w-full flex items-center justify-center space-x-2 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <GoogleIcon />
@@ -162,34 +206,29 @@ export default function RegisterPage() {
                       placeholder="Password"
                       value={loginData.password}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none ${getPasswordBorderClass()} transition-colors`}
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-red-500 transition-colors"
                       autoComplete="current-password"
                     />
-                    {loginData.password &&
-                      !isValidPassword(loginData.password) && (
-                        <p className="text-red-500 text-sm">
-                          Password must be at least 8 characters long and
-                          contain at least one symbol
-                        </p>
-                      )}
                   </div>
 
                   <button
                     type="submit"
                     className={`w-full px-4 py-3 bg-red-500 text-white rounded-lg transition-colors ${
-                      !isValidEmail(loginData.username) ||
-                      !isValidPassword(loginData.password)
+                      !isValidEmail(loginData.username) || loading
                         ? "opacity-50 cursor-not-allowed"
                         : "hover:bg-red-600"
                     }`}
                     disabled={
-                      !isValidEmail(loginData.username) ||
-                      !isValidPassword(loginData.password)
+                      !isValidEmail(loginData.username) || loading
                     }
                   >
-                    Login
+                    {loading ? "Loading..." : "Login"}
                   </button>
                 </form>
+
+                {error && (
+                  <p className="text-red-500 text-sm">{error}</p>
+                )}
 
                 <div className="flex items-center justify-center">
                   <span className="px-4 text-gray-500">OR</span>

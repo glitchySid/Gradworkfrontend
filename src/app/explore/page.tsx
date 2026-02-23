@@ -2,11 +2,18 @@
 
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/ui/header";
-import { Gig } from "@/types";
+import { Gig } from "@/hooks/useApi";
+import { useAuth } from "@/context/AuthContext";
 
-const fetchGigs = async (): Promise<Gig[]> => {
+const fetchGigs = async (token?: string): Promise<Gig[]> => {
+  const headers: HeadersInit = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
   const response = await fetch(
-    "https://gradwork-backend-production.up.railway.app/api/gigs"
+    "http://127.0.0.1:8080/api/gigs",
+    { headers }
   );
   if (!response.ok) {
     throw new Error("Failed to fetch gigs");
@@ -17,15 +24,7 @@ const fetchGigs = async (): Promise<Gig[]> => {
 const GigCard = ({ gig }: { gig: Gig }) => {
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 w-full">
-      {/* Thumbnail placeholder */}
       <div className="relative aspect-[5/3] bg-gray-200">
-        {gig.thumbnail_url && (
-          <img
-            src={gig.thumbnail_url}
-            alt={gig.title}
-            className="w-full h-full object-cover"
-          />
-        )}
       </div>
 
       <div className="p-4">
@@ -38,7 +37,7 @@ const GigCard = ({ gig }: { gig: Gig }) => {
          <div className="flex items-center justify-between pt-2">
           <span className="text-xs text-gray-500">From</span>
           <span className="font-bold text-lg text-red-600">
-            ₹{gig.price.toFixed(2)}
+            ${gig.price.toFixed(2)}
           </span>
         </div>
       </div>
@@ -47,13 +46,15 @@ const GigCard = ({ gig }: { gig: Gig }) => {
 };
 
 export default function ExplorePage() {
+  const { token } = useAuth();
+  
   const {
     data: gigs,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["gigs"],
-    queryFn: fetchGigs,
+    queryKey: ["gigs", token],
+    queryFn: () => fetchGigs(token ?? undefined),
   });
 
   const handleAboutUsClick = () => {

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import TanstackQueryProvider from "@/providers/TanstackQueryProvider";
+import { AuthProvider } from "@/context/AuthContext";
+import { ClientProviders } from "@/components/providers/ClientProviders";
 
 export const metadata: Metadata = {
   title: "GradWork - Freelance Platform",
@@ -15,9 +17,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <TanstackQueryProvider>
-          {children}
-        </TanstackQueryProvider>
+        <AuthProvider>
+          <TanstackQueryProvider>
+            <ClientProviders>
+              {children}
+            </ClientProviders>
+          </TanstackQueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );
