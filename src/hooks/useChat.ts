@@ -50,6 +50,18 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
     onlineUsers: new Set(),
   });
 
+  const onMessageRef = useRef(onMessage);
+  const onTypingRef = useRef(onTyping);
+  const onPresenceRef = useRef(onPresence);
+  const onErrorRef = useRef(onError);
+
+  useEffect(() => {
+    onMessageRef.current = onMessage;
+    onTypingRef.current = onTyping;
+    onPresenceRef.current = onPresence;
+    onErrorRef.current = onError;
+  }, [onMessage, onTyping, onPresence, onError]);
+
   const connect = useCallback(() => {
     if (!contractId || !token) return;
 
@@ -78,7 +90,7 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
               ...prev,
               messages: [message, ...prev.messages],
             }));
-            onMessage?.(message);
+            onMessageRef.current?.(message);
             break;
           }
           case 'message_read': {
@@ -96,7 +108,7 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
               newTyping.set(data.user_id, true);
               return { ...prev, typingUsers: newTyping };
             });
-            onTyping?.(data.user_id, true);
+            onTypingRef.current?.(data.user_id, true);
             break;
           }
           case 'user_stop_typing': {
@@ -105,7 +117,7 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
               newTyping.set(data.user_id, false);
               return { ...prev, typingUsers: newTyping };
             });
-            onTyping?.(data.user_id, false);
+            onTypingRef.current?.(data.user_id, false);
             break;
           }
           case 'presence': {
@@ -118,11 +130,11 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
               }
               return { ...prev, onlineUsers: newOnline };
             });
-            onPresence?.(data.user_id, data.online);
+            onPresenceRef.current?.(data.user_id, data.online);
             break;
           }
           case 'error': {
-            onError?.(data.message);
+            onErrorRef.current?.(data.message);
             break;
           }
         }
@@ -137,11 +149,11 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
 
     ws.onerror = (error) => {
       console.error('WebSocket error:', error);
-      onError?.('Connection error');
+      onErrorRef.current?.('Connection error');
     };
 
     wsRef.current = ws;
-  }, [contractId, token, onMessage, onTyping, onPresence, onError]);
+  }, [contractId, token]);
 
   const disconnect = useCallback(() => {
     if (wsRef.current) {
@@ -173,10 +185,18 @@ export function useChat({ contractId, token, onMessage, onTyping, onPresence, on
     setState(prev => ({ ...prev, messages }));
   }, []);
 
+  const connectRef = useRef(connect);
+  const disconnectRef = useRef(disconnect);
+
   useEffect(() => {
-    connect();
-    return () => disconnect();
+    connectRef.current = connect;
+    disconnectRef.current = disconnect;
   }, [connect, disconnect]);
+
+  useEffect(() => {
+    connectRef.current();
+    return () => disconnectRef.current();
+  }, []);
 
   return {
     ...state,

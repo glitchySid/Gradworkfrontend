@@ -34,7 +34,7 @@ export default function CompleteProfilePage() {
     } else if (session) {
       fetchProfile();
     }
-  }, [session, authLoading, authUser, router]);
+  }, [session, authLoading, authUser]);
 
   const fetchProfile = async () => {
     try {
