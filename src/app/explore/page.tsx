@@ -1,20 +1,37 @@
 "use client";
 
+import { Suspense, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/ui/header";
 import { Gig } from "@/hooks/useApi";
 import { useAuth } from "@/context/AuthContext";
+import { Search, X } from "lucide-react";
 
-const fetchGigs = async (token?: string): Promise<Gig[]> => {
+const CATEGORIES = [
+  { value: "", label: "All Categories" },
+  { value: "web_development", label: "Web Development" },
+  { value: "mobile_development", label: "Mobile Development" },
+  { value: "data_science", label: "Data Science" },
+  { value: "design", label: "Design" },
+  { value: "video_editing", label: "Video Editing" },
+  { value: "content_writing", label: "Content Writing" },
+  { value: "other", label: "Other" },
+];
+
+const fetchGigs = async (category: string, token?: string): Promise<Gig[]> => {
+  let url = "http://127.0.0.1:8080/api/gigs";
+  
+  if (category) {
+    url = `http://127.0.0.1:8080/api/gigs/category/${category}`;
+  }
+  
   const headers: HeadersInit = {};
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const response = await fetch(
-    "http://127.0.0.1:8080/api/gigs",
-    { headers },
-  );
+  const response = await fetch(url, { headers });
   if (!response.ok) {
     throw new Error("Failed to fetch gigs");
   }
@@ -45,52 +62,53 @@ const GigCard = ({ gig }: { gig: Gig }) => {
   );
 };
 
-export default function ExplorePage() {
+function ExplorePageContent() {
   const { token } = useAuth();
+  const searchParams = useSearchParams();
+  const urlSearchQuery = searchParams.get("search") || "";
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchQuery, setSearchQuery] = useState(urlSearchQuery);
+
+  useEffect(() => {
+    const category = searchParams.get("category") || "";
+    setSelectedCategory(category);
+  }, [searchParams]);
+
+  useEffect(() => {
+    setSearchQuery(urlSearchQuery);
+  }, [urlSearchQuery]);
 
   const {
     data: gigs,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["gigs", token],
-    queryFn: () => fetchGigs(token ?? undefined),
+    queryKey: ["gigs", selectedCategory, token],
+    queryFn: () => fetchGigs(selectedCategory, token ?? undefined),
   });
 
-  const handleAboutUsClick = () => {
-    console.log("About Us clicked");
+  const filteredGigs = gigs?.filter(gig => 
+    searchQuery === "" || 
+    gig.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    gig.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
   };
 
-  if (isLoading) {
-    return (
-      <div>
-        <Header onAboutUsClick={handleAboutUsClick} />
-        <div className="max-w-7xl mx-auto p-4 mt-8">
-          <h2 className="text-xl font-semibold mb-6">Explore Gigs</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-3">
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-lg overflow-hidden shadow-md w-full animate-pulse"
-              >
-                <div className="aspect-[5/3] bg-gray-300" />
-                <div className="p-4 space-y-3">
-                  <div className="h-5 bg-gray-300 rounded w-3/4" />
-                  <div className="h-4 bg-gray-300 rounded w-full" />
-                  <div className="h-4 bg-gray-300 rounded w-2/3" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const handleClearSearch = () => {
+    setSearchQuery("");
+  };
+
+  const getCategoryLabel = (value: string) => {
+    return CATEGORIES.find(c => c.value === value)?.label || "All Categories";
+  };
 
   if (error) {
     return (
       <div>
-        <Header onAboutUsClick={handleAboutUsClick} />
+        <Header />
         <div className="max-w-7xl mx-auto p-4 mt-8">
           <h2 className="text-xl font-semibold mb-6">Explore Gigs</h2>
           <div className="text-center py-12">
@@ -105,16 +123,120 @@ export default function ExplorePage() {
 
   return (
     <div>
-      <Header onAboutUsClick={handleAboutUsClick} />
+      <Header />
       <div className="max-w-7xl mx-auto">
         <div className="p-4 mt-8">
           <h2 className="text-xl font-semibold mb-6">Explore Gigs</h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-3">
-            {gigs?.map((gig) => <GigCard key={gig.id} gig={gig} />)}
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="text"
+                placeholder="Search gigs..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all"
+              />
+              {searchQuery && (
+                <button
+                  onClick={handleClearSearch}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <X size={18} />
+                </button>
+              )}
+            </div>
+
+            <select
+              value={selectedCategory}
+              onChange={(e) => handleCategoryChange(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none bg-white min-w-[200px]"
+            >
+              {CATEGORIES.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
           </div>
+
+          {selectedCategory && (
+            <div className="mb-4 flex items-center gap-2">
+              <span className="text-sm text-gray-500">Filtered by:</span>
+              <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">
+                {getCategoryLabel(selectedCategory)}
+                <button
+                  onClick={() => setSelectedCategory("")}
+                  className="ml-2 hover:text-red-900"
+                >
+                  <X size={14} />
+                </button>
+              </span>
+            </div>
+          )}
+
+          {isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-3">
+              {[...Array(8)].map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-lg overflow-hidden shadow-md w-full animate-pulse"
+                >
+                  <div className="aspect-[5/3] bg-gray-300" />
+                  <div className="p-4 space-y-3">
+                    <div className="h-5 bg-gray-300 rounded w-3/4" />
+                    <div className="h-4 bg-gray-300 rounded w-full" />
+                    <div className="h-4 bg-gray-300 rounded w-2/3" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredGigs && filteredGigs.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-3">
+              {filteredGigs.map((gig) => <GigCard key={gig.id} gig={gig} />)}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500 mb-4">
+                No gigs found{selectedCategory ? ` in ${getCategoryLabel(selectedCategory)}` : ""}.
+              </p>
+              {(searchQuery || selectedCategory) && (
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSelectedCategory("");
+                  }}
+                  className="text-red-500 hover:text-red-600"
+                >
+                  Clear filters
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
+  );
+}
+
+function ExplorePageWithParams() {
+  return <ExplorePageContent />;
+}
+
+export default function ExplorePageWrapper() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="max-w-7xl mx-auto p-4 mt-8">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500"></div>
+          </div>
+        </div>
+      </div>
+    }>
+      <ExplorePageWithParams />
+    </Suspense>
   );
 }

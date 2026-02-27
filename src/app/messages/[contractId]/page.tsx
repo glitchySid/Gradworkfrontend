@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Header from "@/components/ui/header";
 import { type ChatMessage, useChat } from "@/hooks/useChat";
 import { useAuth } from "@/context/AuthContext";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { ArrowLeft, MessageCircle, Send } from "lucide-react";
 import Link from "next/link";
@@ -21,7 +21,6 @@ interface ConversationDetail {
 
 export default function ChatPage() {
   const params = useParams();
-  const router = useRouter();
   const contractId = params.contractId as string;
   const { token, user } = useAuth();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -29,8 +28,9 @@ export default function ChatPage() {
   const [messageInput, setMessageInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const queryClient = useQueryClient();
 
-  const { data: conversations = [] } = useQuery<ConversationDetail[]>({
+  const { data: conversations = [], refetch: refetchConversations } = useQuery<ConversationDetail[]>({
     queryKey: ["conversations"],
     queryFn: () => api.get<ConversationDetail[]>("/chat/conversations", token!),
     enabled: !!token,
@@ -50,9 +50,11 @@ export default function ChatPage() {
   } = useChat({
     contractId,
     token: token || "",
-    onMessage: (msg) => {
+    onMessage: async (msg) => {
       if (msg.sender_id !== user?.id) {
         markAsRead(msg.id);
+        await api.put(`/chat/messages/${msg.id}/read`, {}, token!);
+        refetchConversations();
       }
     },
   });
@@ -67,8 +69,24 @@ export default function ChatPage() {
   useEffect(() => {
     if (historicalMessages.length > 0) {
       setMessages(historicalMessages);
+      
+      const unreadMessages = historicalMessages.filter(
+        (m) => !m.is_read && m.sender_id !== user?.id
+      );
+      
+      unreadMessages.forEach(async (msg) => {
+        try {
+          await api.put(`/chat/messages/${msg.id}/read`, {}, token!);
+        } catch (err) {
+          console.error("Failed to mark message as read:", err);
+        }
+      });
+      
+      if (unreadMessages.length > 0) {
+        refetchConversations();
+      }
     }
-  }, [historicalMessages, setMessages]);
+  }, [historicalMessages, setMessages, user?.id, token, refetchConversations]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -134,15 +152,11 @@ export default function ChatPage() {
       <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 py-4 mt-16">
         <div className="bg-white rounded-lg shadow flex flex-col h-[calc(100vh-180px)]">
           <div className="flex items-center p-4 border-b border-gray-200">
-            <Link
-              href="/messages"
-              className="mr-3 text-gray-500 hover:text-gray-700"
-            >
+            <Link href="/messages" className="mr-3 text-gray-500 hover:text-gray-700">
               <ArrowLeft size={20} />
             </Link>
             <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white font-bold">
-              {currentConversation?.other_user_name?.charAt(0).toUpperCase() ||
-                "?"}
+              {currentConversation?.other_user_name?.charAt(0).toUpperCase() || "?"}
             </div>
             <div className="ml-3">
               <h2 className="font-semibold text-gray-900">
@@ -155,55 +169,46 @@ export default function ChatPage() {
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.length === 0
-              ? (
-                <div className="flex items-center justify-center h-full text-gray-500">
-                  <div className="text-center">
-                    <MessageCircle
-                      size={48}
-                      className="mx-auto mb-2 text-gray-300"
-                    />
-                    <p>No messages yet. Start the conversation!</p>
-                  </div>
+            {messages.length === 0 ? (
+              <div className="flex items-center justify-center h-full text-gray-500">
+                <div className="text-center">
+                  <MessageCircle size={48} className="mx-auto mb-2 text-gray-300" />
+                  <p>No messages yet. Start the conversation!</p>
                 </div>
-              )
-              : (
-                messages.slice().reverse().map((msg) => {
-                  const isOwnMessage = msg.sender_id === user?.id;
-                  return (
+              </div>
+            ) : (
+              messages.slice().reverse().map((msg) => {
+                const isOwnMessage = msg.sender_id === user?.id;
+                return (
+                  <div
+                    key={msg.id}
+                    className={`flex ${isOwnMessage ? "justify-end" : "justify-start"}`}
+                  >
                     <div
-                      key={msg.id}
-                      className={`flex ${
-                        isOwnMessage ? "justify-end" : "justify-start"
+                      className={`max-w-[70%] rounded-lg px-4 py-2 ${
+                        isOwnMessage
+                          ? "bg-red-500 text-white"
+                          : "bg-gray-100 text-gray-900"
                       }`}
                     >
+                      <p className="break-words">{msg.content}</p>
                       <div
-                        className={`max-w-[70%] rounded-lg px-4 py-2 ${
-                          isOwnMessage
-                            ? "bg-red-500 text-white"
-                            : "bg-gray-100 text-gray-900"
+                        className={`flex items-center justify-end gap-1 mt-1 ${
+                          isOwnMessage ? "text-red-100" : "text-gray-400"
                         }`}
                       >
-                        <p className="break-words">{msg.content}</p>
-                        <div
-                          className={`flex items-center justify-end gap-1 mt-1 ${
-                            isOwnMessage ? "text-red-100" : "text-gray-400"
-                          }`}
-                        >
+                        <span className="text-xs">{formatTime(msg.created_at)}</span>
+                        {isOwnMessage && (
                           <span className="text-xs">
-                            {formatTime(msg.created_at)}
+                            {msg.is_read ? "✓✓" : "✓"}
                           </span>
-                          {isOwnMessage && (
-                            <span className="text-xs">
-                              {msg.is_read ? "✓✓" : "✓"}
-                            </span>
-                          )}
-                        </div>
+                        )}
                       </div>
                     </div>
-                  );
-                })
-              )}
+                  </div>
+                );
+              })
+            )}
             <div ref={messagesEndRef} />
           </div>
 

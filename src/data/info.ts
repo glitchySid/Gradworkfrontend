@@ -71,14 +71,14 @@ export const freelancers: Freelancer[] = [
 export const teamMembers: TeamMember[] = [
   {
     name: "Siddhesh Mhatre",
-    role: "Frontend Developer",
-    description: "Hello there! I'm aspiring front developer from 2 years.",
+    role: "Backend Developer",
+    description: "Hello there! I'm aspiring backend developer from 2 years.",
   },
   {
-    name: "Varun Bapuli",
-    role: "Backend Developer",
+    name: "Aditya Tiwari",
+    role: "Frontend Developer",
     description:
-      "Hello! I'm a backend developer with a passion for creating efficient systems.",
+      "Hello! I'm a frontend developer with a passion for creating efficient systems.",
   },
   {
     name: "Soham Gadekar",

@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { Session, User } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 
 interface AuthUser {
   id: string;
@@ -68,6 +68,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -94,6 +100,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signInWithGoogle = async () => {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      throw new Error("Supabase environment variables are not configured.");
+    }
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -104,6 +115,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signInWithPassword = async (email: string, password: string) => {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return {
+        error: new Error("Supabase environment variables are not configured."),
+      };
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -112,6 +130,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string) => {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return {
+        error: new Error("Supabase environment variables are not configured."),
+      };
+    }
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -120,6 +145,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      setAuthUser(null);
+      return;
+    }
+
     await supabase.auth.signOut();
     setAuthUser(null);
   };

@@ -25,25 +25,8 @@ interface UseChatOptions {
   onError?: (error: string) => void;
 }
 
-interface SendMessagePayload {
-  type: "send_message";
-  content: string;
-}
-
-interface MarkReadPayload {
-  type: "mark_read";
-  message_id: string;
-}
-
-interface TypingPayload {
-  type: "typing" | "stop_typing";
-}
-
-type WSMessage = SendMessagePayload | MarkReadPayload | TypingPayload;
-
 export function useChat(
-  { contractId, token, onMessage, onTyping, onPresence, onError }:
-    UseChatOptions,
+  { contractId, token, onMessage, onTyping, onPresence, onError }: UseChatOptions
 ) {
   const wsRef = useRef<WebSocket | null>(null);
   const [state, setState] = useState<ChatState>({
@@ -65,12 +48,32 @@ export function useChat(
     onErrorRef.current = onError;
   }, [onMessage, onTyping, onPresence, onError]);
 
+  const disconnect = useCallback(() => {
+    if (wsRef.current) {
+      try {
+        wsRef.current.close();
+      } catch (e) {
+        // Ignore close errors
+      }
+      wsRef.current = null;
+    }
+    setState((prev) => ({ ...prev, connected: false }));
+  }, []);
+
   const connect = useCallback(() => {
     if (!contractId || !token) return;
 
-    const wsUrl =
-      `ws://127.0.0.1:8080/api/chat/ws/${contractId}?token=${token}`;
-    const ws = new WebSocket(wsUrl);
+    disconnect();
+
+    let ws: WebSocket;
+    try {
+      const wsUrl = `ws://127.0.0.1:8080/api/chat/ws/${contractId}?token=${token}`;
+      ws = new WebSocket(wsUrl);
+    } catch (err) {
+      console.error("Failed to create WebSocket:", err);
+      onErrorRef.current?.("Failed to connect to chat");
+      return;
+    }
 
     ws.onopen = () => {
       setState((prev) => ({ ...prev, connected: true }));
@@ -138,7 +141,9 @@ export function useChat(
             break;
           }
           case "error": {
-            onErrorRef.current?.(data.message);
+            if (data.message) {
+              onErrorRef.current?.(data.message);
+            }
             break;
           }
         }
@@ -151,21 +156,17 @@ export function useChat(
       setState((prev) => ({ ...prev, connected: false }));
     };
 
-    ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
+    ws.onerror = () => {
       onErrorRef.current?.("Connection error");
     };
 
     wsRef.current = ws;
-  }, [contractId, token]);
+  }, [contractId, token, disconnect]);
 
-  const disconnect = useCallback(() => {
-    if (wsRef.current) {
-      wsRef.current.close();
-      wsRef.current = null;
-    }
-    setState((prev) => ({ ...prev, connected: false }));
-  }, []);
+  useEffect(() => {
+    connect();
+    return () => disconnect();
+  }, [connect, disconnect]);
 
   const sendMessage = useCallback((content: string) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
@@ -191,19 +192,6 @@ export function useChat(
 
   const setMessages = useCallback((messages: ChatMessage[]) => {
     setState((prev) => ({ ...prev, messages }));
-  }, []);
-
-  const connectRef = useRef(connect);
-  const disconnectRef = useRef(disconnect);
-
-  useEffect(() => {
-    connectRef.current = connect;
-    disconnectRef.current = disconnect;
-  }, [connect, disconnect]);
-
-  useEffect(() => {
-    connectRef.current();
-    return () => disconnectRef.current();
   }, []);
 
   return {
