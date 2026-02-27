@@ -4,9 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Camera } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ||
-  "http://127.0.0.1:8080/api";
+import { buildApiUrl } from "@/lib/api-url";
 
 function toBackendRole(role: "client" | "freelancer"): string {
   return role === "client" ? "Client" : "Freelancer";
@@ -57,7 +55,7 @@ const ProfileDetailF1 = (
         null;
 
       const sendCompleteProfile = async (roleValue: string) => {
-        return fetch(`${API_BASE_URL}/auth/complete-profile`, {
+        return fetch(buildApiUrl("/auth/complete-profile"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

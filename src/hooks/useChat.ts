@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { buildWebSocketUrl } from "@/lib/api-url";
 
 export interface ChatMessage {
   id: string;
@@ -67,7 +68,7 @@ export function useChat(
 
     let ws: WebSocket;
     try {
-      const wsUrl = `ws://127.0.0.1:8080/api/chat/ws/${contractId}?token=${token}`;
+      const wsUrl = buildWebSocketUrl(`/chat/ws/${contractId}`, { token });
       ws = new WebSocket(wsUrl);
     } catch (err) {
       console.error("Failed to create WebSocket:", err);

@@ -7,6 +7,11 @@ import { ClientProviders } from "@/components/providers/ClientProviders";
 export const metadata: Metadata = {
   title: "GradWork - Freelance Platform",
   description: "Connect with opportunities that match your skills",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

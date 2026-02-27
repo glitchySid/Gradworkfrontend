@@ -7,6 +7,7 @@ import Header from "@/components/ui/header";
 import { Gig } from "@/hooks/useApi";
 import { useAuth } from "@/context/AuthContext";
 import { Search, X } from "lucide-react";
+import { buildApiUrl } from "@/lib/api-url";
 
 const CATEGORIES = [
   { value: "", label: "All Categories" },
@@ -20,12 +21,12 @@ const CATEGORIES = [
 ];
 
 const fetchGigs = async (category: string, token?: string): Promise<Gig[]> => {
-  let url = "http://127.0.0.1:8080/api/gigs";
-  
+  let url = buildApiUrl("/gigs");
+
   if (category) {
-    url = `http://127.0.0.1:8080/api/gigs/category/${category}`;
+    url = buildApiUrl(`/gigs/category/${category}`);
   }
-  
+
   const headers: HeadersInit = {};
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;

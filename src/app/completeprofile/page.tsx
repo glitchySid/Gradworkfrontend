@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/ui/header";
 import { useAuth } from "@/context/AuthContext";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ||
-  "http://127.0.0.1:8080/api";
+import { buildApiUrl } from "@/lib/api-url";
 
 interface UserProfile {
   id: string;
@@ -42,7 +40,7 @@ export default function CompleteProfilePage() {
   const fetchProfile = async () => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/auth/me`,
+        buildApiUrl("/auth/me"),
         {
           headers: {
             Authorization: `Bearer ${session?.access_token}`,

@@ -1,5 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ||
-  "http://127.0.0.1:8080/api";
+import { buildApiUrl } from "@/lib/api-url";
 
 interface RequestOptions extends RequestInit {
   token?: string;
@@ -30,7 +29,7 @@ async function request<T>(
     (headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await fetch(buildApiUrl(endpoint), {
     ...fetchOptions,
     headers,
   });

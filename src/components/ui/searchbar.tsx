@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { Gig } from "@/hooks/useApi";
 import { useAuth } from "@/context/AuthContext";
+import { buildApiUrl } from "@/lib/api-url";
 
 const fetchGigs = async (query: string, token?: string): Promise<Gig[]> => {
   const headers: HeadersInit = {};
@@ -11,7 +12,7 @@ const fetchGigs = async (query: string, token?: string): Promise<Gig[]> => {
     headers["Authorization"] = `Bearer ${token}`;
   }
   
-  const response = await fetch(`http://127.0.0.1:8080/api/gigs`, { headers });
+  const response = await fetch(buildApiUrl("/gigs"), { headers });
   if (!response.ok) {
     throw new Error("Failed to fetch gigs");
   }

@@ -9,6 +9,7 @@ import {
 } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase";
+import { buildApiUrl } from "@/lib/api-url";
 
 interface AuthUser {
   id: string;
@@ -48,9 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const fetchAuthUser = async (accessToken: string) => {
     try {
       const response = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080/api"
-        }/auth/me`,
+        buildApiUrl("/auth/me"),
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
