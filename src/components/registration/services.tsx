@@ -2,47 +2,22 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
 import { RegistrationHandlesProps } from "@/types";
 
-const ChooseService = ({ setCurrentPage }: RegistrationHandlesProps) => {
-  const router = useRouter();
-  const { token } = useAuth();
+interface ChooseServiceProps extends RegistrationHandlesProps {
+  setSelectedRole: (role: "client" | "freelancer") => void;
+}
+
+const ChooseService = (
+  { setCurrentPage, setSelectedRole }: ChooseServiceProps,
+) => {
   const [loading, setLoading] = useState(false);
 
   const handleRoleSelect = async (role: "client" | "freelancer") => {
-    if (!token) {
-      router.push("/register");
-      return;
-    }
-
     setLoading(true);
-    try {
-      const response = await fetch(
-        "http://127.0.0.1:8080/api/auth/complete-profile",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ role }),
-        },
-      );
-
-      if (response.ok) {
-        if (role === "freelancer") {
-          setCurrentPage((prev) => prev + 1);
-        } else {
-          router.push("/");
-        }
-      }
-    } catch (error) {
-      console.error("Failed to set role:", error);
-    } finally {
-      setLoading(false);
-    }
+    setSelectedRole(role);
+    setCurrentPage((prev) => prev + 1);
+    setLoading(false);
   };
 
   return (

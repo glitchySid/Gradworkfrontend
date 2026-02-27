@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import Header from "@/components/ui/header";
 import { useAuth } from "@/context/AuthContext";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ||
+  "http://127.0.0.1:8080/api";
+
 interface UserProfile {
   id: string;
   email: string;
@@ -39,7 +42,7 @@ export default function CompleteProfilePage() {
   const fetchProfile = async () => {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8080/api/auth/me",
+        `${API_BASE_URL}/auth/me`,
         {
           headers: {
             Authorization: `Bearer ${session?.access_token}`,

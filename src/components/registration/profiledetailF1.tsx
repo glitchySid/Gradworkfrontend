@@ -3,10 +3,23 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Camera } from "lucide-react";
-import { RegistrationHandlesProps } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 
-const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ||
+  "http://127.0.0.1:8080/api";
+
+function toBackendRole(role: "client" | "freelancer"): string {
+  return role === "client" ? "Client" : "Freelancer";
+}
+
+interface ProfileDetailF1Props {
+  setCurrentPage: (page: number | ((prev: number) => number)) => void;
+  selectedRole: "client" | "freelancer" | null;
+}
+
+const ProfileDetailF1 = (
+  { setCurrentPage, selectedRole }: ProfileDetailF1Props,
+) => {
   const { token, authUser, refetchAuthUser } = useAuth();
   const router = useRouter();
 
@@ -29,6 +42,12 @@ const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
       return;
     }
 
+    if (!selectedRole) {
+      setError("Please choose a role first.");
+      setCurrentPage(1);
+      return;
+    }
+
     setLoading(true);
     setError("");
 
@@ -37,27 +56,47 @@ const ProfileDetailF1 = ({ setCurrentPage }: RegistrationHandlesProps) => {
         [formData.firstName, formData.lastName].filter(Boolean).join(" ") ||
         null;
 
-      const response = await fetch(
-        "http://127.0.0.1:8080/api/auth/complete-profile",
-        {
+      const sendCompleteProfile = async (roleValue: string) => {
+        return fetch(`${API_BASE_URL}/auth/complete-profile`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
+            role: roleValue,
             username: formData.username,
             display_name: displayName,
           }),
-        },
-      );
+        });
+      };
+
+      let response = await sendCompleteProfile(selectedRole);
+
+      // Backend currently deserializes enum variants as PascalCase.
+      if (response.status === 400) {
+        response = await sendCompleteProfile(toBackendRole(selectedRole));
+      }
 
       if (response.ok) {
         await refetchAuthUser();
         setCurrentPage((prev) => prev + 1);
       } else {
-        const data = await response.json();
-        setError(data.error || "Failed to update profile");
+        let message = `Failed to update profile (HTTP ${response.status})`;
+        try {
+          const data = await response.json();
+          message = data.error || data.message || message;
+        } catch {
+          try {
+            const raw = await response.text();
+            if (raw.trim()) {
+              message = `${message}: ${raw.slice(0, 200)}`;
+            }
+          } catch {
+            // ignore body parse errors
+          }
+        }
+        setError(message);
       }
     } catch (err) {
       setError("Failed to update profile");

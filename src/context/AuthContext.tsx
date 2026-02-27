@@ -60,7 +60,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (response.ok) {
         const data = await response.json();
-        setAuthUser(data);
+        setAuthUser({
+          ...data,
+          role: typeof data.role === "string" ? data.role.toLowerCase() : data.role,
+        });
       }
     } catch (error) {
       console.error("Failed to fetch auth user:", error);
@@ -108,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/completeprofile`,
+        redirectTo: `${window.location.origin}/auth/callback?next=/completeprofile`,
       },
     });
     if (error) throw error;

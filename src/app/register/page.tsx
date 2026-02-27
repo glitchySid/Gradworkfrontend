@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import Header from "@/components/ui/header";
 import { useAuth } from "@/context/AuthContext";
 
@@ -34,6 +35,7 @@ const GoogleIcon = () => (
 );
 
 export default function RegisterPage() {
+  const searchParams = useSearchParams();
   const [showLogin, setShowLogin] = useState(false);
   const [loginData, setLoginData] = useState({
     username: "",
@@ -43,6 +45,13 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { signInWithGoogle, signInWithPassword, signUp } = useAuth();
+
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    if (errorParam) {
+      setError(errorParam);
+    }
+  }, [searchParams]);
 
   const handleGoogleLogin = async () => {
     try {

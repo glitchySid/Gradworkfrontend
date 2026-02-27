@@ -382,7 +382,7 @@ function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Price (USD) <span className="text-red-500">*</span>
+              Price (Rupees) <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
