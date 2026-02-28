@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { FileText, LogOut, Menu, MessageCircle, Moon, Search, Sun, User, X } from "lucide-react";
+import { FileText, LogOut, Menu, MessageCircle, Moon, Search, Sun, User, UserPlus, X } from "lucide-react";
 import SearchBar from "@/components/ui/searchbar";
 import { HeaderProps } from "@/types";
 import { useAuth } from "@/context/AuthContext";
@@ -68,6 +68,38 @@ const Header = ({ onAboutUsClick }: HeaderProps) => {
 
       <div className="hidden sm:flex items-center">
         <ul className="flex items-center gap-6">
+          {/* 1. Register (if not logged in) */}
+          {!isLoggedIn && (
+            <li className="flex items-center">
+              <Link
+                href="/register"
+                className="text-base text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors duration-300 cursor-pointer"
+              >
+                Register
+              </Link>
+            </li>
+          )}
+
+          {/* 2. Profile Icon */}
+          {isLoggedIn && (
+            <li className="flex items-center">
+              <Link href="/profile" className="flex items-center">
+                {authUser?.avatar_url ? (
+                  <img
+                    src={authUser.avatar_url}
+                    alt={authUser.display_name || "Profile"}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white">
+                    {authUser?.display_name?.charAt(0) || authUser?.email?.charAt(0) || "U"}
+                  </div>
+                )}
+              </Link>
+            </li>
+          )}
+
+          {/* 3. Navigation Menu Dropdown */}
           <li className="relative flex items-center">
             <button
               onClick={() => setIsPcMenuOpen(!isPcMenuOpen)}
@@ -82,80 +114,51 @@ const Header = ({ onAboutUsClick }: HeaderProps) => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-12 left-1/2 -translate-x-1/2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden z-50 py-2"
+                  className="absolute top-12 right-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden z-50 py-2 flex flex-col"
                 >
-                  <Link href="/explore" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors" onClick={() => setIsPcMenuOpen(false)}>
+                  <Link href="/explore" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors" title="Explore" onClick={() => setIsPcMenuOpen(false)}>
                     <Search size={18} /> Explore
                   </Link>
+
                   {isLoggedIn && (
                     <>
-                      <Link href="/messages" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors" onClick={() => setIsPcMenuOpen(false)}>
+                      <Link href="/messages" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors" title="Messages" onClick={() => setIsPcMenuOpen(false)}>
                         <MessageCircle size={18} /> Messages
-                        {totalUnread > 0 && <span className="ml-auto bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full text-center">{totalUnread > 9 ? "9+" : totalUnread}</span>}
+                        {totalUnread > 0 && <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full text-center">{totalUnread > 9 ? "9+" : totalUnread}</span>}
                       </Link>
-                      <Link href="/contracts" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors" onClick={() => setIsPcMenuOpen(false)}>
+                      <Link href="/contracts" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors" title="Contracts" onClick={() => setIsPcMenuOpen(false)}>
                         <FileText size={18} /> Contracts
-                        {pendingContracts > 0 && <span className="ml-auto bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full text-center">{pendingContracts > 9 ? "9+" : pendingContracts}</span>}
+                        {pendingContracts > 0 && <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full text-center">{pendingContracts > 9 ? "9+" : pendingContracts}</span>}
                       </Link>
                     </>
+                  )}
+
+                  <hr className="my-1 border-gray-100 dark:border-gray-700" />
+
+                  {/* Theme Switcher in Dropdown */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleTheme();
+                    }}
+                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors w-full text-left"
+                  >
+                    {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+                    {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                  </button>
+
+                  {/* Sign Out in Dropdown */}
+                  {isLoggedIn && (
+                    <button
+                      onClick={handleSignOut}
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors w-full text-left"
+                    >
+                      <LogOut size={18} /> Sign Out
+                    </button>
                   )}
                 </motion.div>
               )}
             </AnimatePresence>
-          </li>
-
-          {isLoggedIn
-            ? (
-              <>
-                <li className="flex items-center">
-                  <Link href="/profile" className="flex items-center">
-                    {authUser?.avatar_url
-                      ? (
-                        <img
-                          src={authUser.avatar_url}
-                          alt={authUser.display_name || "Profile"}
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                      )
-                      : (
-                        <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white">
-                          {authUser?.display_name?.charAt(0) ||
-                            authUser?.email?.charAt(0) || "U"}
-                        </div>
-                      )}
-                  </Link>
-                </li>
-                <li className="flex items-center">
-                  <button
-                    onClick={handleSignOut}
-                    className="text-base text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors duration-300 cursor-pointer bg-transparent border-none flex items-center gap-1"
-                  >
-                    <LogOut size={18} />
-                    Sign Out
-                  </button>
-                </li>
-              </>
-            )
-            : (
-              <li className="flex items-center">
-                <Link
-                  href="/register"
-                  className="text-base text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors duration-300 cursor-pointer"
-                >
-                  Register
-                </Link>
-              </li>
-            )}
-
-          {/* Theme Toggle */}
-          <li className="flex items-center">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
           </li>
         </ul>
       </div>
@@ -202,15 +205,14 @@ const Header = ({ onAboutUsClick }: HeaderProps) => {
               className="fixed top-0 right-0 h-full w-3/4 max-w-[280px] bg-white dark:bg-gray-900 shadow-xl z-50 p-4"
             >
               <div className="pt-14">
-                {/* Mobile Search */}
-                <form onSubmit={handleMobileSearch} className="mb-4 px-1">
-                  <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                <form onSubmit={handleMobileSearch} className="mb-4 pr-3 pl-1">
+                  <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden w-full max-w-full">
                     <input
                       type="text"
                       placeholder="Search gigs..."
                       value={mobileSearch}
                       onChange={(e) => setMobileSearch(e.target.value)}
-                      className="flex-1 px-3 py-2.5 text-sm outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                      className="flex-1 w-full min-w-0 px-3 py-2.5 text-sm outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     />
                     <button
                       type="submit"
@@ -312,10 +314,13 @@ const Header = ({ onAboutUsClick }: HeaderProps) => {
                     )
                     : (
                       <li
-                        className="p-3 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 rounded-lg cursor-pointer list-none transition-colors text-gray-700 dark:text-gray-300"
+                        className="p-3 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 rounded-lg cursor-pointer list-none transition-colors text-gray-700 dark:text-gray-300 w-full pr-4"
                         onClick={() => setIsOpen(false)}
                       >
-                        <Link href="/register" className="block w-full">Register</Link>
+                        <Link href="/register" className="flex items-center gap-2 w-full">
+                          <UserPlus size={18} />
+                          Register
+                        </Link>
                       </li>
                     )}
                 </ul>
