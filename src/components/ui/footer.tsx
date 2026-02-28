@@ -7,10 +7,10 @@ const Footer = () => (
       <div>
         <h4 className="font-semibold mb-4">Categories</h4>
         <ul className="space-y-2 text-sm">
-          <li><Link href="/explore?category=content_writing" className="hover:underline">Content Writing</Link></li>
-          <li><Link href="/explore?category=video_editing" className="hover:underline">Video Editing</Link></li>
-          <li><Link href="/explore?category=web_development" className="hover:underline">Web Development</Link></li>
-          <li><Link href="/explore?category=design" className="hover:underline">Design</Link></li>
+          <li><Link href="/explore?category=ContentWriting" className="hover:underline">Content Writing</Link></li>
+          <li><Link href="/explore?category=VideoEditing" className="hover:underline">Video Editing</Link></li>
+          <li><Link href="/explore?category=WebDevelopment" className="hover:underline">Web Development</Link></li>
+          <li><Link href="/explore?category=Design" className="hover:underline">Design</Link></li>
         </ul>
       </div>
       <div>
@@ -32,9 +32,9 @@ const Footer = () => (
       <div>
         <h4 className="font-semibold mb-4">More</h4>
         <ul className="space-y-2 text-sm">
-          <li><Link href="/explore?category=mobile_development" className="hover:underline">Mobile Development</Link></li>
-          <li><Link href="/explore?category=data_science" className="hover:underline">Data Science</Link></li>
-          <li><Link href="/explore?category=other" className="hover:underline">Other Services</Link></li>
+          <li><Link href="/explore?category=MobileDevelopment" className="hover:underline">Mobile Development</Link></li>
+          <li><Link href="/explore?category=DataScience" className="hover:underline">Data Science</Link></li>
+          <li><Link href="/explore?category=Other" className="hover:underline">Other Services</Link></li>
         </ul>
       </div>
     </div>

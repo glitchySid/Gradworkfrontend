@@ -11,13 +11,13 @@ import { useGig, useUser, useCreateContract } from "@/hooks/useApi";
 import { useAuth } from "@/context/AuthContext";
 
 const CATEGORY_LABELS: Record<string, string> = {
-  web_development: "Web Development",
-  mobile_development: "Mobile Development",
-  data_science: "Data Science",
-  design: "Design",
-  video_editing: "Video Editing",
-  content_writing: "Content Writing",
-  other: "Other",
+  WebDevelopment: "Web Development",
+  MobileDevelopment: "Mobile Development",
+  DataScience: "Data Science",
+  Design: "Design",
+  VideoEditing: "Video Editing",
+  ContentWriting: "Content Writing",
+  Other: "Other",
 };
 
 export default function GigDetailPage() {

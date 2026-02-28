@@ -5,12 +5,12 @@ import { ChevronRight } from "lucide-react";
 
 // Map service titles to backend category slugs
 const categoryMap: Record<string, string> = {
-  "Video Editing": "video_editing",
-  "Graphic Designer": "design",
-  "Social Media Mgr": "content_writing",
-  "JavaScript Expert": "web_development",
-  "Marketing": "content_writing",
-  "Translators": "other",
+  "Video Editing": "VideoEditing",
+  "Graphic Designer": "Design",
+  "Social Media Mgr": "ContentWriting",
+  "JavaScript Expert": "WebDevelopment",
+  "Marketing": "ContentWriting",
+  "Translators": "Other",
 };
 
 const ServiceCard = () => (

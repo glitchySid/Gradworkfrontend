@@ -15,13 +15,13 @@ import { getGigThumbnail } from "@/lib/gig-thumbnails";
 
 const CATEGORIES = [
   { value: "", label: "All Categories" },
-  { value: "web_development", label: "Web Development" },
-  { value: "mobile_development", label: "Mobile Development" },
-  { value: "data_science", label: "Data Science" },
-  { value: "design", label: "Design" },
-  { value: "video_editing", label: "Video Editing" },
-  { value: "content_writing", label: "Content Writing" },
-  { value: "other", label: "Other" },
+  { value: "WebDevelopment", label: "Web Development" },
+  { value: "MobileDevelopment", label: "Mobile Development" },
+  { value: "DataScience", label: "Data Science" },
+  { value: "Design", label: "Design" },
+  { value: "VideoEditing", label: "Video Editing" },
+  { value: "ContentWriting", label: "Content Writing" },
+  { value: "Other", label: "Other" },
 ];
 
 const fetchGigs = async (category: string, token?: string): Promise<Gig[]> => {
@@ -101,8 +101,8 @@ function ExplorePageContent() {
     queryFn: () => fetchGigs(selectedCategory, token ?? undefined),
   });
 
-  const filteredGigs = gigs?.filter(gig => 
-    searchQuery === "" || 
+  const filteredGigs = gigs?.filter(gig =>
+    searchQuery === "" ||
     gig.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     gig.description.toLowerCase().includes(searchQuery.toLowerCase())
   );

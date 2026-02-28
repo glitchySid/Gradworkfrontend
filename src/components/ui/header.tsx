@@ -12,6 +12,7 @@ import { useTheme } from "@/context/ThemeContext";
 
 const Header = ({ onAboutUsClick }: HeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPcMenuOpen, setIsPcMenuOpen] = useState(false);
   const [mobileSearch, setMobileSearch] = useState("");
   const router = useRouter();
   const { user, authUser, loading, signOut, token } = useAuth();
@@ -67,54 +68,41 @@ const Header = ({ onAboutUsClick }: HeaderProps) => {
 
       <div className="hidden sm:flex items-center">
         <ul className="flex items-center gap-6">
-          <li className="flex items-center">
-            <Link
-              href="/explore"
-              className="text-base text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors duration-300 cursor-pointer"
-            >
-              Explore
-            </Link>
-          </li>
-          <li className="flex items-center">
+          <li className="relative flex items-center">
             <button
-              onClick={handleAboutUs}
-              className="text-base text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors duration-300 cursor-pointer bg-transparent border-none"
+              onClick={() => setIsPcMenuOpen(!isPcMenuOpen)}
+              onBlur={() => setTimeout(() => setIsPcMenuOpen(false), 200)}
+              className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors duration-300 p-2 cursor-pointer bg-transparent border-none outline-none"
             >
-              About Us
+              <Menu size={24} />
             </button>
+            <AnimatePresence>
+              {isPcMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-12 left-1/2 -translate-x-1/2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden z-50 py-2"
+                >
+                  <Link href="/explore" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors" onClick={() => setIsPcMenuOpen(false)}>
+                    <Search size={18} /> Explore
+                  </Link>
+                  {isLoggedIn && (
+                    <>
+                      <Link href="/messages" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors" onClick={() => setIsPcMenuOpen(false)}>
+                        <MessageCircle size={18} /> Messages
+                        {totalUnread > 0 && <span className="ml-auto bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full text-center">{totalUnread > 9 ? "9+" : totalUnread}</span>}
+                      </Link>
+                      <Link href="/contracts" className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 transition-colors" onClick={() => setIsPcMenuOpen(false)}>
+                        <FileText size={18} /> Contracts
+                        {pendingContracts > 0 && <span className="ml-auto bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full text-center">{pendingContracts > 9 ? "9+" : pendingContracts}</span>}
+                      </Link>
+                    </>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </li>
-
-          {isLoggedIn && (
-            <li className="flex items-center">
-              <Link
-                href="/messages"
-                className="relative text-base text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors duration-300 cursor-pointer"
-              >
-                <MessageCircle size={22} />
-                {totalUnread > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
-                    {totalUnread > 9 ? "9+" : totalUnread}
-                  </span>
-                )}
-              </Link>
-            </li>
-          )}
-
-          {isLoggedIn && (
-            <li className="flex items-center">
-              <Link
-                href="/contracts"
-                className="relative text-base text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors duration-300 cursor-pointer"
-              >
-                <FileText size={22} />
-                {pendingContracts > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
-                    {pendingContracts > 9 ? "9+" : pendingContracts}
-                  </span>
-                )}
-              </Link>
-            </li>
-          )}
 
           {isLoggedIn
             ? (
@@ -226,7 +214,7 @@ const Header = ({ onAboutUsClick }: HeaderProps) => {
                     />
                     <button
                       type="submit"
-                      className="px-3 py-2.5 bg-red-500 text-white"
+                      className="px-4 py-2 bg-red-500 text-white flex items-center justify-center align-middle"
                     >
                       <Search size={16} />
                     </button>
@@ -238,9 +226,12 @@ const Header = ({ onAboutUsClick }: HeaderProps) => {
                     className="p-3 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 rounded-lg cursor-pointer list-none transition-colors text-gray-700 dark:text-gray-300"
                     onClick={() => setIsOpen(false)}
                   >
-                    <Link href="/explore" className="block w-full">Explore</Link>
+                    <Link href="/explore" className="flex items-center gap-2 w-full">
+                      <Search size={18} />
+                      Explore
+                    </Link>
                   </li>
-                  <li
+                  {/* <li
                     className="p-3 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 rounded-lg cursor-pointer list-none transition-colors text-gray-700 dark:text-gray-300"
                     onClick={() => {
                       setIsOpen(false);
@@ -248,7 +239,7 @@ const Header = ({ onAboutUsClick }: HeaderProps) => {
                     }}
                   >
                     About Us
-                  </li>
+                  </li> */}
 
                   {isLoggedIn && (
                     <li

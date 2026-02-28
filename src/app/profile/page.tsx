@@ -9,7 +9,6 @@ import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
-import { getGigThumbnail } from "@/lib/gig-thumbnails";
 import { useContracts } from "@/hooks/useApi";
 import { Plus, Edit, Trash2, Briefcase, X, FileText } from "lucide-react";
 
@@ -77,8 +76,8 @@ export default function ProfilePage() {
               <div className="flex items-center space-x-4">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold overflow-hidden flex-shrink-0">
                   {authUser?.avatar_url ? (
-                    <img 
-                      src={authUser.avatar_url} 
+                    <img
+                      src={authUser.avatar_url}
                       alt={authUser.display_name || "Profile"}
                       className="w-full h-full object-cover"
                     />
@@ -128,7 +127,7 @@ export default function ProfilePage() {
                 <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">
                   Complete Your Account Setup!
                 </h1>
-                <Link 
+                <Link
                   href="/setupprofile"
                   className="w-full max-w-xs bg-red-500 text-white py-4 px-6 rounded-lg text-lg font-semibold hover:bg-red-600 transform hover:scale-105 transition-all duration-200 shadow-md text-center block"
                 >
@@ -144,7 +143,7 @@ export default function ProfilePage() {
                   You can now browse and create gigs, connect with clients/freelancers, and more.
                 </p>
                 <div className="space-y-3">
-                  <Link 
+                  <Link
                     href="/explore"
                     className="w-full max-w-xs bg-red-500 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:bg-red-600 transform hover:scale-105 transition-all duration-200 shadow-md text-center block"
                   >
@@ -157,7 +156,7 @@ export default function ProfilePage() {
         </div>
 
         {hasProfile && (
-          <div>
+          <div className="max-w-4xl mx-auto">
             {/* Contracts quick access */}
             <Link
               href="/contracts"
@@ -211,8 +210,8 @@ export default function ProfilePage() {
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 text-center">
                 <Briefcase size={48} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
                 <p className="text-gray-500 dark:text-gray-400 mb-4">
-                  {authUser?.role === 'freelancer' 
-                    ? "You haven't created any gigs yet." 
+                  {authUser?.role === 'freelancer'
+                    ? "You haven't created any gigs yet."
                     : "No gigs available yet."}
                 </p>
                 {authUser?.role === 'freelancer' && (
@@ -265,7 +264,13 @@ function GigCard({ gig, isOwner, token, onUpdate }: { gig: Gig; isOwner: boolean
     <>
       <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
         <div className="relative aspect-[5/3] bg-gray-200 dark:bg-gray-700">
-          <Image src={getGigThumbnail(gig.thumbnail_url, gig.category, gig.title)} alt={gig.title} fill className="object-cover" />
+          {gig.thumbnail_url ? (
+            <Image src={gig.thumbnail_url} alt={gig.title} fill className="object-cover" />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+              <Briefcase size={32} />
+            </div>
+          )}
         </div>
 
         <div className="p-4">
@@ -338,13 +343,13 @@ function GigCard({ gig, isOwner, token, onUpdate }: { gig: Gig; isOwner: boolean
 
 const CATEGORIES = [
   { value: "", label: "Select a category" },
-  { value: "web_development", label: "Web Development" },
-  { value: "mobile_development", label: "Mobile Development" },
-  { value: "data_science", label: "Data Science" },
-  { value: "design", label: "Design" },
-  { value: "video_editing", label: "Video Editing" },
-  { value: "content_writing", label: "Content Writing" },
-  { value: "other", label: "Other" },
+  { value: "WebDevelopment", label: "Web Development" },
+  { value: "MobileDevelopment", label: "Mobile Development" },
+  { value: "DataScience", label: "Data Science" },
+  { value: "Design", label: "Design" },
+  { value: "VideoEditing", label: "Video Editing" },
+  { value: "ContentWriting", label: "Content Writing" },
+  { value: "Other", label: "Other" },
 ];
 
 function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
@@ -364,13 +369,19 @@ function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess
     setError("");
 
     try {
-      await api.post("/gigs", {
+      // Always send the enum value for category (from select value)
+      const payload: any = {
         title: formData.title,
         description: formData.description,
         price: parseFloat(formData.price),
-        category: formData.category,
-        ...(formData.thumbnail_url.trim() ? { thumbnail_url: formData.thumbnail_url.trim() } : {}),
-      }, token!);
+      };
+      if (formData.category) {
+        payload.category = formData.category; // This is the enum value, not the label
+      }
+      if (formData.thumbnail_url) {
+        payload.thumbnail_url = formData.thumbnail_url;
+      }
+      await api.post("/gigs", payload, token!);
       onSuccess();
       onClose();
     } catch (err: unknown) {
@@ -421,6 +432,19 @@ function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Thumbnail URL
+            </label>
+            <input
+              type="url"
+              value={formData.thumbnail_url}
+              onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              placeholder="e.g., https://example.com/image.jpg"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Price (Rupees) <span className="text-red-500">*</span>
             </label>
             <input
@@ -453,20 +477,6 @@ function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Thumbnail URL
-            </label>
-            <input
-              type="url"
-              value={formData.thumbnail_url}
-              onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-              placeholder="https://example.com/image.jpg (optional)"
-            />
-            <p className="text-xs text-gray-400 mt-1">Leave blank for an auto-generated thumbnail</p>
-          </div>
-
           {error && (
             <p className="text-red-500 text-sm">{error}</p>
           )}
@@ -493,13 +503,11 @@ function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess
   );
 }
 
-const EDIT_CATEGORIES = CATEGORIES;
-
 function EditGigModal({ gig, onClose, onSuccess }: { gig: Gig; onClose: () => void; onSuccess: () => void }) {
   const { token } = useAuth();
-  const [formData, setFormData] = useState({ 
-    title: gig.title, 
-    description: gig.description, 
+  const [formData, setFormData] = useState({
+    title: gig.title,
+    description: gig.description,
     price: gig.price.toString(),
     category: gig.category || "",
     thumbnail_url: gig.thumbnail_url || ""
@@ -523,7 +531,7 @@ function EditGigModal({ gig, onClose, onSuccess }: { gig: Gig; onClose: () => vo
         description: formData.description,
         price: parseFloat(formData.price),
         category: formData.category,
-        thumbnail_url: formData.thumbnail_url.trim() || null,
+        thumbnail_url: formData.thumbnail_url || null,
       }, token!);
       onSuccess();
       onClose();
@@ -591,6 +599,19 @@ function EditGigModal({ gig, onClose, onSuccess }: { gig: Gig; onClose: () => vo
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Thumbnail URL
+            </label>
+            <input
+              type="url"
+              value={formData.thumbnail_url}
+              onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              placeholder="e.g., https://example.com/image.jpg"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Category <span className="text-red-500">*</span>
             </label>
             <select
@@ -605,20 +626,6 @@ function EditGigModal({ gig, onClose, onSuccess }: { gig: Gig; onClose: () => vo
                 </option>
               ))}
             </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Thumbnail URL
-            </label>
-            <input
-              type="url"
-              value={formData.thumbnail_url}
-              onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-              placeholder="https://example.com/image.jpg (optional)"
-            />
-            <p className="text-xs text-gray-400 mt-1">Leave blank for an auto-generated thumbnail</p>
           </div>
 
           {error && (
