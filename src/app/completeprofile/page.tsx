@@ -1,118 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/ui/header";
 import { useAuth } from "@/context/AuthContext";
-import { buildApiUrl } from "@/lib/api-url";
-
-interface UserProfile {
-  id: string;
-  email: string;
-  username: string | null;
-  display_name: string | null;
-  avatar_url: string | null;
-  role: string | null;
-  created_at: string;
-  updated_at: string | null;
-}
 
 export default function CompleteProfilePage() {
-  const { user, session, loading: authLoading, authUser } = useAuth();
+  const { session, loading: authLoading, authUser } = useAuth();
   const router = useRouter();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !session) {
-      router.push("/register");
+    if (authLoading) return;
+
+    if (!session) {
+      router.replace("/register");
       return;
     }
 
-    if (session && authUser) {
-      setProfile(authUser);
-      setLoading(false);
-    } else if (session) {
-      fetchProfile();
+    // Wait for authUser to load
+    if (!authUser) return;
+
+    const hasProfile = authUser.username && authUser.role;
+    if (hasProfile) {
+      router.replace("/");
+    } else {
+      router.replace("/setupprofile");
     }
-  }, [session, authLoading, authUser]);
-
-  const fetchProfile = async () => {
-    try {
-      const response = await fetch(
-        buildApiUrl("/auth/me"),
-        {
-          headers: {
-            Authorization: `Bearer ${session?.access_token}`,
-          },
-        },
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setProfile(data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch profile:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSetupProfile = () => {
-    router.push("/setupprofile");
-  };
-
-  const handleSkip = () => {
-    router.push("/");
-  };
-
-  if (authLoading || loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500">
-        </div>
-      </div>
-    );
-  }
-
-  const hasProfile = profile?.username && profile?.role;
-
-  if (hasProfile) {
-    router.push("/");
-    return null;
-  }
+  }, [session, authLoading, authUser, router]);
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <main className="max-w-7xl mx-auto px-4 py-16">
-        <div className="max-w-md mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Welcome{profile?.display_name ? `, ${profile.display_name}` : ""}!
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Complete your profile to get the most out of GradWork. This helps
-            others find you and your services.
-          </p>
-
-          <div className="space-y-4">
-            <button
-              onClick={handleSetupProfile}
-              className="w-full px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium"
-            >
-              Complete Your Profile
-            </button>
-
-            <button
-              onClick={handleSkip}
-              className="w-full px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-            >
-              Skip for now
-            </button>
-          </div>
-        </div>
-      </main>
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500" />
     </div>
   );
 }

@@ -2,21 +2,17 @@ import Image from "next/image";
 import { TeamMemberCardProps } from "@/types";
 
 const TeamMemberCard = ({ name, role, description }: TeamMemberCardProps) => (
-  <div className="border rounded-lg p-4">
-    <div className="flex items-center gap-4 mb-2">
-      <Image
-        src="/assets/gradworklandingpage.jpg"
-        alt={name}
-        width={40}
-        height={40}
-        className="w-10 h-10 rounded-full"
-      />
-      <div>
-        <h3 className="font-semibold">{name}</h3>
-        <p className="text-sm text-gray-600">{role}</p>
-      </div>
-    </div>
-    <p className="text-sm text-gray-600">{description}</p>
+  <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 sm:p-6 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200 text-center">
+    <Image
+      src="/assets/gradworklandingpage.jpg"
+      alt={name}
+      width={64}
+      height={64}
+      className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover mx-auto mb-4"
+    />
+    <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">{name}</h3>
+    <p className="text-red-500 text-xs sm:text-sm font-medium mt-0.5">{role}</p>
+    <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mt-3 leading-relaxed">{description}</p>
   </div>
 );
 

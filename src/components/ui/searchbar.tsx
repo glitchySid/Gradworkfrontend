@@ -83,7 +83,7 @@ const SearchBar = () => {
     <div ref={containerRef} className="relative w-full">
       <form onSubmit={handleSubmit}>
         <Search
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
           size={20}
         />
         <input
@@ -92,13 +92,13 @@ const SearchBar = () => {
           onChange={handleSearch}
           onFocus={() => setIsOpen(true)}
           placeholder="Search gigs..."
-          className="w-full py-2.5 pl-10 pr-10 rounded-lg border shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          className="w-full py-2.5 pl-10 pr-10 rounded-lg border dark:border-gray-700 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
         />
         {query && (
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             <X size={16} />
           </button>
@@ -106,15 +106,15 @@ const SearchBar = () => {
       </form>
 
       {showResults && results.length > 0 && (
-        <div className="absolute w-full mt-1 bg-white border rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+        <div className="absolute w-full mt-1 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
           {results.map((gig) => (
             <div
               key={gig.id}
-              className="p-3 hover:bg-gray-100 cursor-pointer border-b last:border-b-0"
+              className="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b dark:border-gray-700 last:border-b-0"
               onClick={() => handleResultClick(gig)}
             >
-              <div className="font-medium text-gray-900 truncate">{gig.title}</div>
-              <div className="text-sm text-gray-500 truncate">
+              <div className="font-medium text-gray-900 dark:text-white truncate">{gig.title}</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 truncate">
                 {gig.description || "No description"}
               </div>
               <div className="text-sm font-semibold text-red-500 mt-1">
@@ -123,7 +123,7 @@ const SearchBar = () => {
             </div>
           ))}
           <div
-            className="p-3 text-center text-red-500 hover:bg-gray-100 cursor-pointer border-t"
+            className="p-3 text-center text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-t dark:border-gray-700"
             onClick={() => {
               setIsOpen(false);
               router.push(`/explore?search=${encodeURIComponent(query)}`);
@@ -135,7 +135,7 @@ const SearchBar = () => {
       )}
 
       {showResults && results.length === 0 && (
-        <div className="absolute w-full mt-1 bg-white border rounded-lg shadow-lg z-50 p-4 text-center text-gray-500">
+        <div className="absolute w-full mt-1 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg shadow-lg z-50 p-4 text-center text-gray-500 dark:text-gray-400">
           No gigs found for "{query}"
         </div>
       )}

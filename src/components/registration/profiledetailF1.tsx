@@ -105,12 +105,12 @@ const ProfileDetailF1 = (
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-3xl font-semibold text-gray-800 mb-2">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 sm:p-8">
+      <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 md:p-8">
+        <h1 className="text-3xl font-semibold text-gray-800 dark:text-white mb-2">
           Personal Info.
         </h1>
-        <p className="text-gray-500 mb-8">
+        <p className="text-gray-500 dark:text-gray-400 mb-8">
           This personal information will be displayed to other users
         </p>
 
@@ -119,7 +119,7 @@ const ProfileDetailF1 = (
             <div className="w-32 h-32 bg-red-800 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors cursor-pointer">
               <Camera className="w-12 h-12 text-white" />
             </div>
-            <p className="text-center mt-3 text-gray-600 font-medium">
+            <p className="text-center mt-3 text-gray-600 dark:text-gray-400 font-medium">
               Profile Pic
             </p>
           </div>
@@ -127,12 +127,12 @@ const ProfileDetailF1 = (
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               First Name
             </label>
             <input
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
               placeholder="Enter first name"
               value={formData.firstName}
               onChange={(e) =>
@@ -141,12 +141,12 @@ const ProfileDetailF1 = (
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Last Name
             </label>
             <input
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
               placeholder="Enter last name"
               value={formData.lastName}
               onChange={(e) =>
@@ -155,13 +155,13 @@ const ProfileDetailF1 = (
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               User Name
               <span className="text-red-800">*</span>
             </label>
             <input
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-800 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
               placeholder="Enter username"
               value={formData.username}
               onChange={(e) =>
@@ -174,7 +174,7 @@ const ProfileDetailF1 = (
 
         <div className="flex justify-between items-center">
           <button
-            className="text-gray-600 flex items-center gap-2 hover:text-gray-800 transition-colors"
+            className="text-gray-600 dark:text-gray-400 flex items-center gap-2 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
             onClick={() => setCurrentPage((prev) => prev - 1)}
           >
             <span className="text-lg">←</span> Back

@@ -17,6 +17,8 @@ export interface Gig {
   title: string;
   description: string;
   price: number;
+  thumbnail_url: string | null;
+  category: string | null;
   user_id: string;
   created_at: string;
 }
@@ -106,8 +108,8 @@ export function useGigs(token?: string) {
 export function useGig(id: string, token?: string) {
   return useQuery<Gig, ApiError>({
     queryKey: ["gig", id],
-    queryFn: () => api.get<Gig>(`/gigs/${id}`, token!),
-    enabled: !!token,
+    queryFn: () => api.get<Gig>(`/gigs/${id}`, token),
+    enabled: !!id,
   });
 }
 
@@ -123,8 +125,8 @@ export function useCreateGig() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: { title: string; description: string; price: number }) =>
-      api.post<Gig>("/gigs", data),
+    mutationFn: ({ token, ...data }: { title: string; description: string; price: number; token?: string }) =>
+      api.post<Gig>("/gigs", data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["gigs"] });
     },
@@ -136,13 +138,14 @@ export function useUpdateGig() {
 
   return useMutation({
     mutationFn: (
-      { id, ...data }: {
+      { id, token, ...data }: {
         id: string;
+        token?: string;
         title?: string;
         description?: string;
         price?: number;
       },
-    ) => api.put<Gig>(`/gigs/${id}`, data),
+    ) => api.put<Gig>(`/gigs/${id}`, data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["gigs"] });
     },
@@ -153,7 +156,8 @@ export function useDeleteGig() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => api.delete<void>(`/gigs/${id}`),
+    mutationFn: ({ id, token }: { id: string; token?: string }) =>
+      api.delete<void>(`/gigs/${id}`, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["gigs"] });
     },
@@ -172,8 +176,8 @@ export function useCreateContract() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: { gig_id: string }) =>
-      api.post<Contract>("/contracts", data),
+    mutationFn: ({ gig_id, token }: { gig_id: string; token?: string }) =>
+      api.post<Contract>("/contracts", { gig_id }, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["contracts"] });
     },
@@ -185,8 +189,8 @@ export function useUpdateContractStatus() {
 
   return useMutation({
     mutationFn: (
-      { id, status }: { id: string; status: "Accepted" | "Rejected" },
-    ) => api.put<Contract>(`/contracts/${id}/status`, { status }),
+      { id, status, token }: { id: string; status: "Accepted" | "Rejected"; token?: string },
+    ) => api.put<Contract>(`/contracts/${id}/status`, { status }, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["contracts"] });
     },
@@ -197,7 +201,8 @@ export function useDeleteContract() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => api.delete<void>(`/contracts/${id}`),
+    mutationFn: ({ id, token }: { id: string; token?: string }) =>
+      api.delete<void>(`/contracts/${id}`, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["contracts"] });
     },
@@ -226,13 +231,14 @@ export function useCreatePortfolio() {
 
   return useMutation({
     mutationFn: (
-      data: {
+      { token, ...data }: {
         title: string;
         description: string;
         freelancer_id: string;
         price: number;
+        token?: string;
       },
-    ) => api.post<Portfolio>("/portfolios", data),
+    ) => api.post<Portfolio>("/portfolios", data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["portfolios"] });
     },
@@ -244,13 +250,14 @@ export function useUpdatePortfolio() {
 
   return useMutation({
     mutationFn: (
-      { id, ...data }: {
+      { id, token, ...data }: {
         id: string;
+        token?: string;
         title?: string;
         description?: string;
         price?: number;
       },
-    ) => api.put<Portfolio>(`/portfolios/${id}`, data),
+    ) => api.put<Portfolio>(`/portfolios/${id}`, data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["portfolios"] });
     },
@@ -261,7 +268,8 @@ export function useDeletePortfolio() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => api.delete<void>(`/portfolios/${id}`),
+    mutationFn: ({ id, token }: { id: string; token?: string }) =>
+      api.delete<void>(`/portfolios/${id}`, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["portfolios"] });
     },

@@ -17,54 +17,70 @@ export const services: Service[] = [
 
 export const freelancers: Freelancer[] = [
   {
-    name: "Aarav Sharma",
-    username: "AaravTheCoder",
+    name: "Siddhesh Mhatre",
+    username: "siddhesh_dev",
     badge: "Expert",
     location: "Mumbai",
-    title: "Video Editor",
-    rating: "4.8",
+    title: "Backend Developer",
+    rating: "4.9",
+    avatar_color: "#6366f1",
     description:
-      "I'll transform your raw footage into a polished, professional video with seamless cuts, effects, and sound design. Let me bring your vision to life with high-quality editing tailored to your needs!",
+      "Full-stack Rust & Node.js developer with 2+ years building production APIs, microservices, and real-time systems. Specializing in Actix-Web, PostgreSQL, and cloud deployments.",
   },
   {
-    name: "Priya Patel",
-    username: "PriyaDesigns",
+    name: "Aditya Tiwari",
+    username: "adi_frontend",
+    badge: "Expert",
+    location: "Mumbai",
+    title: "Frontend Developer",
+    rating: "4.8",
+    avatar_color: "#ec4899",
+    description:
+      "React & Next.js specialist building responsive, performant web apps. Experienced with TypeScript, Tailwind CSS, and modern component architectures.",
+  },
+  {
+    name: "Soham Gadekar",
+    username: "soham_ux",
+    badge: "Expert",
+    location: "Pune",
+    title: "UI/UX Designer",
+    rating: "4.7",
+    avatar_color: "#f59e0b",
+    description:
+      "Creative UI/UX designer crafting intuitive interfaces and design systems. Proficient in Figma, prototyping, and translating user research into pixel-perfect designs.",
+  },
+  {
+    name: "Riya Kapoor",
+    username: "riya_edits",
     badge: "Intermediate",
     location: "Delhi",
-    title: "Web Developer",
-    rating: "4.5",
+    title: "Video Editor",
+    rating: "4.6",
+    avatar_color: "#10b981",
     description:
-      "I specialize in creating responsive and user-friendly websites. From front-end development to back-end integration, I can build a website that meets your specific requirements.",
+      "Professional video editor delivering polished content for YouTube, reels, and ads. Skilled in Premiere Pro, After Effects, and color grading.",
   },
   {
-    name: "Rahul Singh",
-    username: "RahulGraphics",
-    badge: "Beginner",
-    location: "Bangalore",
-    title: "Graphic Designer",
-    rating: "4.2",
-    description:
-      "I'm a passionate graphic designer with a focus on creating visually appealing logos, branding materials, and marketing collateral. Let me help you elevate your brand's image.",
-  },
-  {
-    name: "Anika Joshi",
-    username: "AnikaApps",
-    badge: "Expert",
-    location: "Chennai",
-    title: "Mobile App Developer",
-    rating: "4.9",
-    description:
-      "I develop high-performance and user-friendly mobile applications for iOS and Android platforms. I can bring your app idea to life with clean code and intuitive design.",
-  },
-  {
-    name: "Vikram Reddy",
-    username: "VikramData",
+    name: "Arjun Nair",
+    username: "arjun_mobile",
     badge: "Intermediate",
+    location: "Bangalore",
+    title: "Mobile App Developer",
+    rating: "4.5",
+    avatar_color: "#8b5cf6",
+    description:
+      "Cross-platform mobile developer building native-quality apps with React Native and Flutter. From MVP to production, I ship fast and iterate quickly.",
+  },
+  {
+    name: "Meera Joshi",
+    username: "meera_data",
+    badge: "Beginner",
     location: "Hyderabad",
     title: "Data Analyst",
-    rating: "4.6",
+    rating: "4.3",
+    avatar_color: "#ef4444",
     description:
-      "I have expertise in data analysis and visualization, helping businesses make data-driven decisions. I can extract insights from complex datasets and present them in a clear and concise manner.",
+      "Aspiring data analyst with strong Python and SQL skills. I turn raw datasets into actionable insights using pandas, matplotlib, and Tableau dashboards.",
   },
 ];
 

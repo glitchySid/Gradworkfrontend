@@ -1,12 +1,15 @@
 "use client";
 
 import { Suspense, useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import Image from "next/image";
 import Header from "@/components/ui/header";
+import Footer from "@/components/ui/footer";
 import { Gig } from "@/hooks/useApi";
 import { useAuth } from "@/context/AuthContext";
-import { Search, X } from "lucide-react";
+import { Search, X, Briefcase } from "lucide-react";
 import { buildApiUrl } from "@/lib/api-url";
 
 const CATEGORIES = [
@@ -41,25 +44,40 @@ const fetchGigs = async (category: string, token?: string): Promise<Gig[]> => {
 
 const GigCard = ({ gig }: { gig: Gig }) => {
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 w-full">
-      <div className="relative aspect-[5/3] bg-gray-200">
+    <Link
+      href={`/explore/${gig.id}`}
+      className="block bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 w-full"
+    >
+      <div className="relative aspect-[5/3] bg-gray-100 dark:bg-gray-700">
+        {gig.thumbnail_url ? (
+          <Image
+            src={gig.thumbnail_url}
+            alt={gig.title}
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Briefcase size={32} className="text-gray-300" />
+          </div>
+        )}
       </div>
 
       <div className="p-4">
-        <h3 className="font-semibold text-lg mb-2 truncate">{gig.title}</h3>
+        <h3 className="font-semibold text-lg mb-2 truncate text-gray-900 dark:text-white">{gig.title}</h3>
 
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+        <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2">
           {gig.description}
         </p>
 
         <div className="flex items-center justify-between pt-2">
-          <span className="text-xs text-gray-500">From</span>
+          <span className="text-xs text-gray-500 dark:text-gray-400">From</span>
           <span className="font-bold text-lg text-red-600">
             ${gig.price.toFixed(2)}
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -108,10 +126,10 @@ function ExplorePageContent() {
 
   if (error) {
     return (
-      <div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <Header />
-        <div className="max-w-7xl mx-auto p-4 mt-8">
-          <h2 className="text-xl font-semibold mb-6">Explore Gigs</h2>
+        <div className="max-w-7xl mx-auto p-4 pt-20 sm:pt-24">
+          <h2 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">Explore Gigs</h2>
           <div className="text-center py-12">
             <p className="text-red-500">
               Failed to load gigs. Please try again later.
@@ -123,26 +141,26 @@ function ExplorePageContent() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header />
       <div className="max-w-7xl mx-auto">
-        <div className="p-4 mt-8">
-          <h2 className="text-xl font-semibold mb-6">Explore Gigs</h2>
+        <div className="p-4 pt-20 sm:pt-24">
+          <h2 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">Explore Gigs</h2>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
               <input
                 type="text"
                 placeholder="Search gigs..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all"
+                className="w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
               />
               {searchQuery && (
                 <button
                   onClick={handleClearSearch}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   <X size={18} />
                 </button>
@@ -152,7 +170,7 @@ function ExplorePageContent() {
             <select
               value={selectedCategory}
               onChange={(e) => handleCategoryChange(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none bg-white min-w-[200px]"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 min-w-[200px]"
             >
               {CATEGORIES.map((category) => (
                 <option key={category.value} value={category.value}>
@@ -164,8 +182,8 @@ function ExplorePageContent() {
 
           {selectedCategory && (
             <div className="mb-4 flex items-center gap-2">
-              <span className="text-sm text-gray-500">Filtered by:</span>
-              <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">
+              <span className="text-sm text-gray-500 dark:text-gray-400">Filtered by:</span>
+              <span className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-full text-sm font-medium">
                 {getCategoryLabel(selectedCategory)}
                 <button
                   onClick={() => setSelectedCategory("")}
@@ -182,13 +200,13 @@ function ExplorePageContent() {
               {[...Array(8)].map((_, i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-lg overflow-hidden shadow-md w-full animate-pulse"
+                  className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md w-full animate-pulse"
                 >
-                  <div className="aspect-[5/3] bg-gray-300" />
+                  <div className="aspect-[5/3] bg-gray-300 dark:bg-gray-700" />
                   <div className="p-4 space-y-3">
-                    <div className="h-5 bg-gray-300 rounded w-3/4" />
-                    <div className="h-4 bg-gray-300 rounded w-full" />
-                    <div className="h-4 bg-gray-300 rounded w-2/3" />
+                    <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded w-3/4" />
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full" />
+                    <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-2/3" />
                   </div>
                 </div>
               ))}
@@ -199,7 +217,7 @@ function ExplorePageContent() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">
+              <p className="text-gray-500 dark:text-gray-400 mb-4">
                 No gigs found{selectedCategory ? ` in ${getCategoryLabel(selectedCategory)}` : ""}.
               </p>
               {(searchQuery || selectedCategory) && (
@@ -217,6 +235,7 @@ function ExplorePageContent() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
@@ -228,9 +247,9 @@ function ExplorePageWithParams() {
 export default function ExplorePageWrapper() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <Header />
-        <div className="max-w-7xl mx-auto p-4 mt-8">
+        <div className="max-w-7xl mx-auto p-4 pt-20 sm:pt-24">
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500"></div>
           </div>

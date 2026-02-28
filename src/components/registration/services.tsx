@@ -6,10 +6,11 @@ import { RegistrationHandlesProps } from "@/types";
 
 interface ChooseServiceProps extends RegistrationHandlesProps {
   setSelectedRole: (role: "client" | "freelancer") => void;
+  onSkip?: () => void;
 }
 
 const ChooseService = (
-  { setCurrentPage, setSelectedRole }: ChooseServiceProps,
+  { setCurrentPage, setSelectedRole, onSkip }: ChooseServiceProps,
 ) => {
   const [loading, setLoading] = useState(false);
 
@@ -21,8 +22,8 @@ const ChooseService = (
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
-      <h1 className="text-2xl font-normal mb-8 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-gray-900 px-4">
+      <h1 className="text-2xl font-normal mb-8 p-4 text-center text-gray-900 dark:text-white">
         <span className="text-4xl font-bold mb-8 font-MC m-2">W</span>hat are
         you looking for?
       </h1>
@@ -35,9 +36,9 @@ const ChooseService = (
           </div>
         )
         : (
-          <div className="flex space-x-8 m-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 w-full max-w-lg sm:max-w-xl">
             <div
-              className="cursor-pointer hover:scale-105 transition-transform"
+              className="cursor-pointer hover:scale-105 transition-transform flex flex-col items-center"
               onClick={() => handleRoleSelect("freelancer")}
             >
               <Image
@@ -45,14 +46,14 @@ const ChooseService = (
                 alt="Sell Services"
                 width={240}
                 height={180}
-                className="w-60 h-45 mb-4"
+                className="w-48 sm:w-60 h-auto mb-4"
               />
-              <p className="text-center font-medium">
+              <p className="text-center font-medium text-gray-900 dark:text-white">
                 I want to offer services
               </p>
             </div>
             <div
-              className="cursor-pointer hover:scale-105 transition-transform"
+              className="cursor-pointer hover:scale-105 transition-transform flex flex-col items-center"
               onClick={() => handleRoleSelect("client")}
             >
               <Image
@@ -60,15 +61,20 @@ const ChooseService = (
                 alt="Buy Services"
                 width={240}
                 height={180}
-                className="w-60 h-45 mb-5"
+                className="w-48 sm:w-60 h-auto mb-5"
               />
-              <p className="text-center font-medium">
+              <p className="text-center font-medium text-gray-900 dark:text-white">
                 I want to hire freelancers
               </p>
             </div>
           </div>
         )}
-      <p className="mt-8 text-gray-500 font-normal">Skip this →</p>
+      <button
+        onClick={onSkip}
+        className="mt-8 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-normal transition-colors cursor-pointer"
+      >
+        Skip this &rarr;
+      </button>
     </div>
   );
 };

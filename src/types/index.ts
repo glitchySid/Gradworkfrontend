@@ -23,6 +23,7 @@ export interface Freelancer {
   title: string;
   rating: string;
   description: string;
+  avatar_color: string;
 }
 
 export interface TeamMember {
@@ -57,6 +58,7 @@ export interface FreelancerCardProps {
   title: string;
   rating: string;
   description: string;
+  avatar_color?: string;
 }
 
 export interface TeamMemberCardProps {

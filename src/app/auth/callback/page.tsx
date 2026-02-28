@@ -5,9 +5,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getSupabaseClient } from "@/lib/supabase";
 
 function getSafeNextPath(nextParam: string | null): string {
-  if (!nextParam) return "/completeprofile";
-  if (!nextParam.startsWith("/")) return "/completeprofile";
-  if (nextParam.startsWith("//")) return "/completeprofile";
+  if (!nextParam) return "/";
+  if (!nextParam.startsWith("/")) return "/";
+  if (nextParam.startsWith("//")) return "/";
   return nextParam;
 }
 

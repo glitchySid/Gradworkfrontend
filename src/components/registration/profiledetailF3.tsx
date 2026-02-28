@@ -1,15 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Header from "@/components/ui/header";
 import { useAuth } from "@/context/AuthContext";
 import { RegistrationHandlesProps } from "@/types";
 
 const ProfileDetailF3 = ({ setCurrentPage }: RegistrationHandlesProps) => {
   const { authUser } = useAuth();
+  const router = useRouter();
 
   const handleFinish = () => {
-    window.location.href = "/";
+    router.push("/");
   };
 
   const handleBack = () => {
@@ -17,12 +19,12 @@ const ProfileDetailF3 = ({ setCurrentPage }: RegistrationHandlesProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header />
       <div className="container mx-auto px-4 py-8 mt-16 sm:mt-20">
-        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
           <div className="md:flex">
-            <div className="p-8 md:w-1/2">
+            <div className="p-4 sm:p-6 md:p-8 md:w-1/2">
               <div className="flex items-center space-x-4">
                 <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
                   {authUser?.avatar_url
@@ -39,17 +41,17 @@ const ProfileDetailF3 = ({ setCurrentPage }: RegistrationHandlesProps) => {
                     )}
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {authUser?.display_name || "User"}
                   </h2>
-                  <p className="text-gray-600 font-medium">
+                  <p className="text-gray-600 dark:text-gray-400 font-medium">
                     @{authUser?.username || "username"}
                   </p>
                 </div>
               </div>
 
               <div className="mt-8 space-y-6">
-                <div className="flex items-center space-x-3 text-gray-600">
+                <div className="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
                   <svg
                     className="w-6 h-6 text-red-500"
                     fill="none"
@@ -68,7 +70,7 @@ const ProfileDetailF3 = ({ setCurrentPage }: RegistrationHandlesProps) => {
                   </span>
                 </div>
 
-                <div className="flex items-center space-x-3 text-gray-600">
+                <div className="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
                   <svg
                     className="w-6 h-6 text-red-500"
                     fill="none"
@@ -82,10 +84,10 @@ const ProfileDetailF3 = ({ setCurrentPage }: RegistrationHandlesProps) => {
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                     />
                   </svg>
-                  <span className="text-lg">{authUser?.email}</span>
+                  <span className="text-base sm:text-lg truncate">{authUser?.email}</span>
                 </div>
 
-                <div className="flex items-center space-x-3 text-gray-600">
+                <div className="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
                   <svg
                     className="w-6 h-6 text-red-500"
                     fill="none"
@@ -108,11 +110,11 @@ const ProfileDetailF3 = ({ setCurrentPage }: RegistrationHandlesProps) => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 md:w-1/2 flex flex-col items-center justify-center">
-              <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8">
+            <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-900/10 p-4 sm:p-6 md:p-8 md:w-1/2 flex flex-col items-center justify-center">
+              <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-900 dark:text-white mb-8">
                 Your Profile is Ready!
               </h1>
-              <p className="text-gray-600 text-center mb-6">
+              <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
                 You can now start offering your services or hire freelancers.
               </p>
               <button
@@ -122,7 +124,7 @@ const ProfileDetailF3 = ({ setCurrentPage }: RegistrationHandlesProps) => {
                 Go to Home
               </button>
               <button
-                className="mt-4 text-gray-600 hover:text-gray-800"
+                className="mt-4 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 onClick={handleBack}
               >
                 ← Back
