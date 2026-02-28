@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Star, MapPin } from "lucide-react";
 import { freelancers } from "@/data/info";
 import { FreelancerCardProps } from "@/types";
@@ -10,7 +11,8 @@ const FreelancerCard = ({
   location,
   badge,
   avatar_color,
-}: FreelancerCardProps & { location?: string; badge?: string; avatar_color?: string }) => {
+  user_id,
+}: FreelancerCardProps & { location?: string; badge?: string; avatar_color?: string; user_id?: string }) => {
   const initials = name
     .split(" ")
     .map((w) => w[0])
@@ -20,8 +22,15 @@ const FreelancerCard = ({
 
   const bgColor = avatar_color || "#6366f1";
 
+  const Wrapper = user_id
+    ? ({ children }: { children: React.ReactNode }) => (
+        <Link href={`/users/${user_id}`} className="block">{children}</Link>
+      )
+    : ({ children }: { children: React.ReactNode }) => <>{children}</>;
+
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-3 sm:p-5 lg:p-6 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200">
+    <Wrapper>
+    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-3 sm:p-5 lg:p-6 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200 cursor-pointer">
       {/* Mobile: stacked layout, Desktop: horizontal */}
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4">
         <div
@@ -66,6 +75,7 @@ const FreelancerCard = ({
         </div>
       )}
     </div>
+    </Wrapper>
   );
 };
 

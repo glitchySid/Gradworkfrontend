@@ -9,6 +9,7 @@ import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
+import { getGigThumbnail } from "@/lib/gig-thumbnails";
 import { useContracts } from "@/hooks/useApi";
 import { Plus, Edit, Trash2, Briefcase, X, FileText } from "lucide-react";
 
@@ -264,13 +265,7 @@ function GigCard({ gig, isOwner, token, onUpdate }: { gig: Gig; isOwner: boolean
     <>
       <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
         <div className="relative aspect-[5/3] bg-gray-200 dark:bg-gray-700">
-          {gig.thumbnail_url ? (
-            <Image src={gig.thumbnail_url} alt={gig.title} fill className="object-cover" />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-              <Briefcase size={32} />
-            </div>
-          )}
+          <Image src={getGigThumbnail(gig.thumbnail_url, gig.category, gig.title)} alt={gig.title} fill className="object-cover" />
         </div>
 
         <div className="p-4">
@@ -354,7 +349,7 @@ const CATEGORIES = [
 
 function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
   const { token } = useAuth();
-  const [formData, setFormData] = useState({ title: "", description: "", price: "", category: "" });
+  const [formData, setFormData] = useState({ title: "", description: "", price: "", category: "", thumbnail_url: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -374,6 +369,7 @@ function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess
         description: formData.description,
         price: parseFloat(formData.price),
         category: formData.category,
+        ...(formData.thumbnail_url.trim() ? { thumbnail_url: formData.thumbnail_url.trim() } : {}),
       }, token!);
       onSuccess();
       onClose();
@@ -457,6 +453,20 @@ function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess
             </select>
           </div>
 
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Thumbnail URL
+            </label>
+            <input
+              type="url"
+              value={formData.thumbnail_url}
+              onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              placeholder="https://example.com/image.jpg (optional)"
+            />
+            <p className="text-xs text-gray-400 mt-1">Leave blank for an auto-generated thumbnail</p>
+          </div>
+
           {error && (
             <p className="text-red-500 text-sm">{error}</p>
           )}
@@ -483,13 +493,16 @@ function CreateGigModal({ onClose, onSuccess }: { onClose: () => void; onSuccess
   );
 }
 
+const EDIT_CATEGORIES = CATEGORIES;
+
 function EditGigModal({ gig, onClose, onSuccess }: { gig: Gig; onClose: () => void; onSuccess: () => void }) {
   const { token } = useAuth();
   const [formData, setFormData] = useState({ 
     title: gig.title, 
     description: gig.description, 
     price: gig.price.toString(),
-    category: gig.category || ""
+    category: gig.category || "",
+    thumbnail_url: gig.thumbnail_url || ""
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -510,6 +523,7 @@ function EditGigModal({ gig, onClose, onSuccess }: { gig: Gig; onClose: () => vo
         description: formData.description,
         price: parseFloat(formData.price),
         category: formData.category,
+        thumbnail_url: formData.thumbnail_url.trim() || null,
       }, token!);
       onSuccess();
       onClose();
@@ -591,6 +605,20 @@ function EditGigModal({ gig, onClose, onSuccess }: { gig: Gig; onClose: () => vo
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Thumbnail URL
+            </label>
+            <input
+              type="url"
+              value={formData.thumbnail_url}
+              onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              placeholder="https://example.com/image.jpg (optional)"
+            />
+            <p className="text-xs text-gray-400 mt-1">Leave blank for an auto-generated thumbnail</p>
           </div>
 
           {error && (

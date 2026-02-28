@@ -11,6 +11,7 @@ import { Gig } from "@/hooks/useApi";
 import { useAuth } from "@/context/AuthContext";
 import { Search, X, Briefcase } from "lucide-react";
 import { buildApiUrl } from "@/lib/api-url";
+import { getGigThumbnail } from "@/lib/gig-thumbnails";
 
 const CATEGORIES = [
   { value: "", label: "All Categories" },
@@ -49,18 +50,12 @@ const GigCard = ({ gig }: { gig: Gig }) => {
       className="block bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 w-full"
     >
       <div className="relative aspect-[5/3] bg-gray-100 dark:bg-gray-700">
-        {gig.thumbnail_url ? (
-          <Image
-            src={gig.thumbnail_url}
-            alt={gig.title}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Briefcase size={32} className="text-gray-300" />
-          </div>
-        )}
+        <Image
+          src={getGigThumbnail(gig.thumbnail_url, gig.category, gig.title)}
+          alt={gig.title}
+          fill
+          className="object-cover"
+        />
       </div>
 
       <div className="p-4">

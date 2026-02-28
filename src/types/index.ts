@@ -24,6 +24,7 @@ export interface Freelancer {
   rating: string;
   description: string;
   avatar_color: string;
+  user_id?: string;
 }
 
 export interface TeamMember {
@@ -59,6 +60,7 @@ export interface FreelancerCardProps {
   rating: string;
   description: string;
   avatar_color?: string;
+  user_id?: string;
 }
 
 export interface TeamMemberCardProps {

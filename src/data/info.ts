@@ -24,6 +24,7 @@ export const freelancers: Freelancer[] = [
     title: "Backend Developer",
     rating: "4.9",
     avatar_color: "#6366f1",
+    user_id: "4a26844f-b8c3-4fc9-a78b-e682a74f0be6",
     description:
       "Full-stack Rust & Node.js developer with 2+ years building production APIs, microservices, and real-time systems. Specializing in Actix-Web, PostgreSQL, and cloud deployments.",
   },

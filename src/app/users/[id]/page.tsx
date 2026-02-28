@@ -8,6 +8,7 @@ import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import { useAuth } from "@/context/AuthContext";
 import { useUser, useGigs, useFreelancerPortfolios, useCreateContract, Gig } from "@/hooks/useApi";
+import { getGigThumbnail } from "@/lib/gig-thumbnails";
 import { ArrowLeft, Mail, Calendar, Briefcase, User as UserIcon, MapPin, Star } from "lucide-react";
 
 export default function FreelancerProfilePage({ params }: { params: Promise<{ id: string }> }) {
@@ -207,18 +208,12 @@ export default function FreelancerProfilePage({ params }: { params: Promise<{ id
                   >
                     {/* Thumbnail */}
                     <div className="relative w-full h-40 bg-gray-100 dark:bg-gray-700">
-                      {gig.thumbnail_url ? (
-                        <Image
-                          src={gig.thumbnail_url}
-                          alt={gig.title}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="flex items-center justify-center h-full">
-                          <Briefcase size={32} className="text-gray-300" />
-                        </div>
-                      )}
+                      <Image
+                        src={getGigThumbnail(gig.thumbnail_url, gig.category, gig.title)}
+                        alt={gig.title}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
 
                     <div className="p-4 flex flex-col flex-1">
